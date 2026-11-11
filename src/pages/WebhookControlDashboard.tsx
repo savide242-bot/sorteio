@@ -72,6 +72,7 @@ export const WebhookControlDashboard: React.FC = () => {
       full_name: 'Test Mama Sophie',
       email: 'test.mama@example.com',
       normalized_email: 'test.mama@example.com',
+      phone: '+1 (555) 234-5678',
       baby_age: '6 – 8 months (Exploring Purees & Textures)',
       country: 'United States',
       feeding_challenge: 'Texture transition',

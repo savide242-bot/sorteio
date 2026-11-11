@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, Sparkles, CheckCircle2, AlertCircle, Loader2, Baby, Mail, User, Globe, HelpCircle } from 'lucide-react';
+import { Heart, Sparkles, CheckCircle2, AlertCircle, Loader2, Baby, Mail, User, Phone, ShieldAlert, Globe, HelpCircle } from 'lucide-react';
 import { registerParticipant } from '../lib/storage';
 import { RegistrationFormData } from '../types/giveaway';
 
@@ -30,6 +30,7 @@ export const RegistrationForm: React.FC = () => {
   const [formData, setFormData] = useState<RegistrationFormData>({
     fullName: '',
     email: '',
+    phone: '',
     babyAge: '',
     country: '',
     feedingChallenge: '',
@@ -64,6 +65,11 @@ export const RegistrationForm: React.FC = () => {
 
     if (!formData.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       setErrorMessage('Please enter a valid email address so we can deliver your lucky number.');
+      return;
+    }
+
+    if (!formData.phone.trim() || formData.phone.trim().length < 6) {
+      setErrorMessage('O número de telefone é obrigatório para validação da sua vaga no Grupo VIP.');
       return;
     }
 
@@ -119,7 +125,7 @@ export const RegistrationForm: React.FC = () => {
         </h3>
 
         <p className="text-xs sm:text-sm text-[#5C524C] mt-2 max-w-md mx-auto leading-relaxed">
-          12 lucky moms will win complimentary 7-day VIP access to all 300+ recipes, weekly planners, and allergy tracking before our launch on November 30!
+          12 lucky moms will win complimentary 7-day VIP access to all 300+ recipes, weekly planners, and allergy tracking starting November 20! Winners announced November 21.
         </p>
       </div>
 
@@ -186,6 +192,38 @@ export const RegistrationForm: React.FC = () => {
           <p className="text-[11px] text-[#7A7067] mt-1 pl-1">
             Your permanent lucky number (e.g. BB0001) will be delivered here instantly.
           </p>
+        </div>
+
+        {/* Phone Number (WhatsApp / Mobile) */}
+        <div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#474039] mb-1.5">
+            WhatsApp / Phone Number <span className="text-[#E76F51]">*</span>
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8A8077]">
+              <Phone className="w-4 h-4" />
+            </div>
+            <input
+              type="tel"
+              name="phone"
+              required
+              placeholder="+1 (555) 234-5678 / WhatsApp com DDD"
+              value={formData.phone}
+              onChange={handleChange}
+              className="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E2D9CE] text-[#24211D] text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:bg-white transition-all placeholder:text-[#9A9086]"
+            />
+          </div>
+
+          {/* VIP Community Notice */}
+          <div className="mt-2.5 p-3.5 rounded-2xl bg-[#FFF6F0] border-2 border-[#FBD3C1] text-[#8C2C13] text-xs flex items-start gap-2.5 shadow-sm">
+            <ShieldAlert className="w-4 h-4 text-[#E76F51] shrink-0 mt-0.5" />
+            <div className="leading-relaxed">
+              <span className="font-bold uppercase tracking-wider text-[11px] block text-[#B23B1B] mb-0.5">
+                ⚠️ Aviso Importante — Verificação do Grupo VIP
+              </span>
+              O número de telefone é obrigatório. A nossa equipe vai verificar cada número para confirmar se você está no <strong>Grupo VIP Oficial</strong>. Todas as mães que não estiverem no grupo serão desqualificadas do sorteio.
+            </div>
+          </div>
         </div>
 
         {/* Baby's Age */}

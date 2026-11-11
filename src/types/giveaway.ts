@@ -3,6 +3,7 @@ export interface Participant {
   full_name: string;
   email: string;
   normalized_email: string;
+  phone: string;
   baby_age: string;
   country?: string;
   feeding_challenge?: string;
@@ -18,6 +19,7 @@ export interface Participant {
 export interface RegistrationFormData {
   fullName: string;
   email: string;
+  phone: string;
   babyAge: string;
   country?: string;
   feedingChallenge?: string;
@@ -57,6 +59,7 @@ export interface WebhookEvent {
     lucky_number: string;
     full_name: string;
     email: string;
+    phone?: string;
     baby_age: string;
     country?: string;
     feeding_challenge?: string;

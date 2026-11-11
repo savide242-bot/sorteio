@@ -25,7 +25,7 @@ export const Footer: React.FC = () => {
             </p>
             <div className="text-xs text-[#52B788] pt-1 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Official Early Access Giveaway &bull; Launching November 30, 2026</span>
+              <span>Official Early Access Giveaway &bull; Free VIP Access Begins November 20, 2026 &bull; Winners Announced November 21</span>
             </div>
           </div>
 

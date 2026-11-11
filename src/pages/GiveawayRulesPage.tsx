@@ -51,9 +51,9 @@ export const GiveawayRulesPage: React.FC = () => {
                 3. Entry Period &amp; Deadlines
               </h2>
               <ul className="list-disc pl-5 space-y-1.5">
-                <li><strong>Registration Closes:</strong> November 20, 2026 at 11:59 PM Eastern Time (EST). All entries must be received prior to this deadline.</li>
-                <li><strong>External Selection Period:</strong> November 21–25, 2026.</li>
-                <li><strong>Official Launch Date &amp; Access Begins:</strong> November 30, 2026.</li>
+                <li><strong>Registration Closes &amp; Free Access Begins:</strong> November 20, 2026 at 11:59 PM Eastern Time (EST).</li>
+                <li><strong>Official Winners Announcement:</strong> November 21, 2026.</li>
+                <li><strong>VIP Community Verification:</strong> All participants must be active members of the official VIP Mom Group with verified phone number. Unverified entries are disqualified.</li>
               </ul>
             </section>
 

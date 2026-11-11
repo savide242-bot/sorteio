@@ -28,7 +28,7 @@ export const LandingPage: React.FC = () => {
   const faqs = [
     {
       q: 'How are the 12 lucky winners chosen?',
-      a: 'Transparency is our top priority. After registration closes on November 20, 2026 at 11:59 PM EST, all eligible lucky numbers are exported directly into an external verified drawing application (Random.org). 12 unique winning numbers will be drawn and contacted directly via email.'
+      a: 'Transparency is our top priority. After registration closes on November 20, 2026 at 11:59 PM EST, all eligible lucky numbers are exported directly into an external verified drawing application (Random.org). On November 21, 12 unique winning numbers will be officially announced and contacted directly via email and WhatsApp.'
     },
     {
       q: 'Does it cost anything to register or participate?',
@@ -36,7 +36,7 @@ export const LandingPage: React.FC = () => {
     },
     {
       q: 'What is included in the 7-day early access prize?',
-      a: 'The 12 winning moms will enjoy complete unlimited access to BabyBites 7 days prior to our official public launch on November 30, 2026. This includes all 300+ baby recipes, stage-by-stage meal plans, allergen tracking, pantry matcher tool, and automatic grocery list generator.'
+      a: 'The 12 winning moms will enjoy complete unlimited access to BabyBites for 7 full days starting November 20, 2026. This includes all 300+ baby recipes, stage-by-stage meal plans, allergen tracking, pantry matcher tool, and automatic grocery list generator.'
     },
     {
       q: 'When will I receive my lucky number?',
@@ -60,7 +60,7 @@ export const LandingPage: React.FC = () => {
           <Sparkles className="w-3.5 h-3.5" />
           BabyBites VIP Early Access:
         </span>{' '}
-        Registration closes on <span className="underline font-bold text-white">November 20, 2026</span> &bull; Official Launch on <span className="underline font-bold text-white">November 30, 2026</span>
+        Registration closes on <span className="underline font-bold text-white">November 20, 2026</span> &bull; Winners Announced on <span className="underline font-bold text-white">November 21, 2026</span>
       </div>
 
       {/* Hero Section */}
@@ -82,7 +82,7 @@ export const LandingPage: React.FC = () => {
             </h1>
 
             <p className="text-base sm:text-xl text-[#5C524C] leading-relaxed max-w-2xl mx-auto font-normal">
-              We’re giving 12 lucky moms the opportunity to experience <strong className="text-[#1F1B1A] font-bold">BabyBites for 7 days, completely free</strong>, before our official launch on November 30.
+              We’re giving 12 lucky moms the opportunity to experience <strong className="text-[#1F1B1A] font-bold">BabyBites for 7 days, completely free</strong>, starting November 20!
             </p>
           </div>
 
@@ -129,8 +129,8 @@ export const LandingPage: React.FC = () => {
                 <span className="font-bold text-[#1F1B1A] text-sm">November 20, 2026</span>
               </div>
               <div className="border-l border-[#F2ECE3]">
-                <span className="text-[#8A8077] block font-sans uppercase tracking-wider text-[10px]">Official Launch Date</span>
-                <span className="font-bold text-[#2D6A4F] text-sm">November 30, 2026</span>
+                <span className="text-[#8A8077] block font-sans uppercase tracking-wider text-[10px]">Winners Announced</span>
+                <span className="font-bold text-[#2D6A4F] text-sm">November 21, 2026</span>
               </div>
             </div>
           </div>
@@ -217,11 +217,11 @@ export const LandingPage: React.FC = () => {
                 <span className="text-2xl font-serif font-bold text-[#2D6A4F] block mb-2">04</span>
                 <h3 className="text-base font-bold text-[#24211D] mb-2 font-serif">7 Days Free VIP</h3>
                 <p className="text-xs text-[#5D554E] leading-relaxed">
-                  Starting <strong>November 30, 2026</strong>, the 12 winners receive free 7-day VIP access to all BabyBites recipes and meal plans!
+                  Starting <strong>November 20, 2026</strong>, the 12 winners receive free 7-day VIP access to all BabyBites recipes, with winners announced on <strong>November 21</strong>!
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-[#EAE2D8] text-[11px] font-bold text-[#2D6A4F]">
-                Official Launch: Nov 30, 2026
+                Announced: Nov 21, 2026
               </div>
             </div>
           </div>

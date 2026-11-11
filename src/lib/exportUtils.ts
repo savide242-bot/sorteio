@@ -27,11 +27,12 @@ export function generateParticipantsCsv(participants: Participant[], eligibleOnl
     ? participants.filter(p => p.registration_status === 'valid')
     : participants;
 
-  // Exact header line requested:
-  const headers = ['Lucky Number', 'Full Name', 'Email', "Baby's Age", 'Country', 'Registration Date', 'Feeding Challenge'];
+  // Header with Phone included:
+  const headers = ['Lucky Number', 'Full Name', 'Phone', 'Email', "Baby's Age", 'Country', 'Registration Date', 'Feeding Challenge'];
   const rows = filtered.map(p => [
     p.lucky_number,
     p.full_name,
+    p.phone || 'N/A',
     p.email,
     p.baby_age,
     p.country || 'N/A',

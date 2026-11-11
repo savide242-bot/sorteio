@@ -21,6 +21,7 @@ interface Participant {
   lucky_number: string;
   full_name: string;
   email: string;
+  phone?: string;
   baby_age: string;
   country?: string;
   feeding_challenge?: string;

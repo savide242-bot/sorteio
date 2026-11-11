@@ -14,7 +14,7 @@ export const DEFAULT_CONFIG: CampaignConfig = {
   supabaseAnonKey: (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || '',
   webhookUrl: (import.meta as any).env?.VITE_WEBHOOK_URL || 'http://localhost:5174/api/webhook',
   closingDate: '2026-11-20T23:59:59Z',
-  launchDate: '2026-11-30T00:00:00Z',
+  launchDate: '2026-11-20T23:59:59Z',
   maxWinners: 12,
   isRegistrationOpen: true,
 };
@@ -56,6 +56,7 @@ export async function dispatchGiveawayWebhook(
       lucky_number: participant.lucky_number,
       full_name: participant.full_name,
       email: participant.email,
+      phone: participant.phone,
       baby_age: participant.baby_age,
       country: participant.country,
       feeding_challenge: participant.feeding_challenge,
@@ -208,14 +209,15 @@ export async function dispatchGiveawayEmails(
   }) + ' UTC';
 
   // Build the numbered cumulative list text:
-  // 1. BB0001 - Name | email | baby's age | country | date
+  // 1. BB0001 - Name | Phone | email | baby's age | country | date
   const cumulativeTextList = chronologicalList
     .map((p, index) => {
       const num = index + 1;
+      const phoneStr = p.phone ? ` | Phone: ${p.phone}` : '';
       const countryStr = p.country ? ` | ${p.country}` : '';
       const challengeStr = p.feeding_challenge ? ` | Challenge: ${p.feeding_challenge}` : '';
       const statusStr = p.registration_status !== 'valid' ? ` [${p.registration_status.toUpperCase()}]` : '';
-      return `${num}. [${p.lucky_number}] ${p.full_name} (${p.email}) - Baby: ${p.baby_age}${countryStr}${challengeStr}${statusStr}`;
+      return `${num}. [${p.lucky_number}] ${p.full_name}${phoneStr} (${p.email}) - Baby: ${p.baby_age}${countryStr}${challengeStr}${statusStr}`;
     })
     .join('\n');
 
@@ -226,59 +228,61 @@ export async function dispatchGiveawayEmails(
     .join('\n');
 
   // Complete Raw CSV Content embedded directly in the email for instant copy-paste into Excel
-  const csvHeaders = 'Lucky Number,Full Name,Email,Baby Age,Country,Registration Date,Feeding Challenge';
+  const csvHeaders = 'Lucky Number,Full Name,Phone,Email,Baby Age,Country,Registration Date,Feeding Challenge';
   const csvRows = chronologicalList
-    .map(p => `"${p.lucky_number}","${p.full_name}","${p.email}","${p.baby_age}","${p.country || ''}","${p.registered_at.split('T')[0]}","${p.feeding_challenge || ''}"`)
+    .map(p => `"${p.lucky_number}","${p.full_name}","${p.phone || ''}","${p.email}","${p.baby_age}","${p.country || ''}","${p.registered_at.split('T')[0]}","${p.feeding_challenge || ''}"`)
     .join('\n');
   const rawCsvContent = `${csvHeaders}\n${csvRows}`;
 
   // Full Admin Email Body with the CUMULATIVE LIST + INSTANT CSV
-  const adminSubject = `[BabyBites] Candidate #${totalRegistered}: ${participant.full_name} (${participant.lucky_number}) — Cumulative Master List Updated`;
+  const adminSubject = `[BabyBites] Nova Inscrição #${totalRegistered}: ${participant.full_name} (${participant.lucky_number}) — Lista Mestre Atualizada`;
 
   const adminBody = `===============================================================
 BABYBITES EARLY ACCESS GIVEAWAY — CUMULATIVE MASTER UPDATE
 ===============================================================
 
-LATEST REGISTRATION (#${totalRegistered}):
-Name: ${participant.full_name}
+NOVO CANDIDATO (#${totalRegistered}):
+Nome: ${participant.full_name}
+Telefone / WhatsApp: ${participant.phone || 'Não informado'}
 Email: ${participant.email}
-Lucky Number: ${participant.lucky_number}
-Baby’s Age: ${participant.baby_age}
-Country: ${participant.country || 'Not specified'}
-Feeding Challenge: ${participant.feeding_challenge || 'None reported'}
-Registration Date: ${regDateFormatted}
+Número da Sorte: ${participant.lucky_number}
+Idade do Bebé: ${participant.baby_age}
+País: ${participant.country || 'Não especificado'}
+Desafio Alimentar: ${participant.feeding_challenge || 'Nenhum relatado'}
+Data de Registro: ${regDateFormatted}
 
 ===============================================================
-CUMULATIVE PARTICIPANT MASTER LIST (${totalRegistered} REGISTERED SO FAR):
+LISTA CUMULATIVA DE PARTICIPANTES (${totalRegistered} REGISTRADOS ATÉ AGORA):
 ===============================================================
 ${cumulativeTextList}
 
 ===============================================================
-RAW CSV EXPORT DATA (COPY & PASTE INTO EXCEL / GOOGLE SHEETS):
+DADOS CSV EM BRUTO (COPIAR E COLAR DIRETO NO EXCEL / SHEETS):
 ===============================================================
 ${rawCsvContent}
 
 ===============================================================
-LUCKY NUMBERS ONLY (COPY-PASTE READY FOR RANDOM.ORG DRAW):
+APENAS OS NÚMEROS DA SORTE (PRONTOS PARA O RANDOM.ORG):
 ===============================================================
 ${luckyNumbersBlock}
 
 ===============================================================
-Direct Export Link: http://localhost:5173/admin-giveaway/export
-Total Valid Entries for External Draw: ${chronologicalList.filter(p => p.registration_status === 'valid').length}
+Total de Participantes Válidos para o Sorteio: ${chronologicalList.filter(p => p.registration_status === 'valid').length}
+Encerramento: 20 de Novembro de 2026 | Anúncio dos Vencedores: 21 de Novembro de 2026
 ===============================================================`;
 
   // HTML formatted cumulative table for mobile email readability
   const adminHtmlRows = chronologicalList
     .map((p, index) => `
-      <tr style="border-bottom: 1px solid #EFE8E2; font-size: 13px; font-family: 'Times New Roman', serif;">
-        <td style="padding: 10px 8px; font-weight: bold; color: #8F3D52;">#${index + 1}</td>
-        <td style="padding: 10px 8px; font-family: monospace; font-weight: bold; color: #2C2422;">${p.lucky_number}</td>
-        <td style="padding: 10px 8px; font-weight: bold; color: #2C2422;">${p.full_name}</td>
-        <td style="padding: 10px 8px; color: #5A4E4B;">${p.email}</td>
-        <td style="padding: 10px 8px; color: #5A4E4B;">${p.baby_age}</td>
-        <td style="padding: 10px 8px; color: #5A4E4B;">${p.country || '—'}</td>
-        <td style="padding: 10px 8px; font-size: 11px; color: #887B78;">${new Date(p.registered_at).toLocaleDateString()}</td>
+      <tr style="border-bottom: 1px solid #EDE4DA; font-size: 13px; font-family: 'Times New Roman', serif; background-color: ${index % 2 === 0 ? '#FFFFFF' : '#FAF7F3'};">
+        <td style="padding: 10px 8px; font-weight: bold; color: #2D6A4F;">#${index + 1}</td>
+        <td style="padding: 10px 8px; font-family: monospace; font-weight: bold; color: #1F1B1A; font-size: 14px;">${p.lucky_number}</td>
+        <td style="padding: 10px 8px; font-weight: bold; color: #1F1B1A;">${p.full_name}</td>
+        <td style="padding: 10px 8px; font-family: monospace; font-weight: bold; color: #8C2C13;">${p.phone || '—'}</td>
+        <td style="padding: 10px 8px; color: #5C524C;">${p.email}</td>
+        <td style="padding: 10px 8px; color: #5C524C;">${p.baby_age}</td>
+        <td style="padding: 10px 8px; color: #5C524C;">${p.country || '—'}</td>
+        <td style="padding: 10px 8px; font-size: 11px; color: #8A8077;">${new Date(p.registered_at).toLocaleDateString()}</td>
       </tr>
     `).join('');
 
@@ -286,49 +290,85 @@ Total Valid Entries for External Draw: ${chronologicalList.filter(p => p.registr
   <!DOCTYPE html>
   <html>
   <head><meta charset="utf-8"></head>
-  <body style="font-family: 'Times New Roman', Times, serif; background-color: #FAF7F2; padding: 20px; color: #2C2422; margin: 0;">
-    <div style="max-width: 700px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E8DFD5; border-radius: 12px; padding: 28px; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+  <body style="font-family: 'Times New Roman', Times, serif; background-color: #F7F4EE; padding: 24px 12px; color: #2C2422; margin: 0;">
+    <div style="max-width: 720px; margin: 0 auto; background: #FFFFFF; border: 1.5px solid #E5DCCE; border-radius: 18px; padding: 32px 28px; box-shadow: 0 8px 30px rgba(0,0,0,0.05);">
       
-      <div style="border-bottom: 2px solid #8F3D52; padding-bottom: 16px; margin-bottom: 24px;">
-        <h1 style="font-size: 24px; color: #8F3D52; margin: 0; font-family: 'Times New Roman', serif;">BabyBites Giveaway — Master Participant Update</h1>
-        <p style="margin: 6px 0 0 0; color: #6E615D; font-size: 14px;">Total registered participants to date: <strong>${totalRegistered}</strong></p>
+      <!-- Header Banner with Brand -->
+      <div style="border-bottom: 2px solid #2D6A4F; padding-bottom: 20px; margin-bottom: 26px; text-align: center;">
+        <span style="display: inline-block; background-color: #E8F5E9; color: #1B4332; font-family: sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; padding: 4px 14px; border-radius: 20px; border: 1px solid #C7E4D6; margin-bottom: 10px;">
+          Painel de Notificação BabyBites
+        </span>
+        <h1 style="font-size: 26px; color: #1F1B1A; margin: 0; font-family: 'Times New Roman', serif; font-weight: bold;">
+          Baby<span style="color: #2D6A4F;">Bites</span> — Nova Inscrição #${totalRegistered}
+        </h1>
+        <p style="margin: 8px 0 0 0; color: #5C524C; font-size: 14px;">
+          Total acumulado até o momento: <strong>${totalRegistered} mães inscritas</strong> &bull; Vencedores: <strong>12 Acessos VIP</strong>
+        </p>
       </div>
 
-      <!-- Quick Export Action Banner -->
-      <div style="background-color: #F8F5EE; border: 1px solid #E6DDD0; border-radius: 8px; padding: 14px 18px; margin-bottom: 24px; text-align: center;">
-        <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: bold; color: #2C2422;">Export Options Directly from this Email:</p>
-        <a href="http://localhost:5173/admin-giveaway/export" style="background-color: #8F3D52; color: #FFFFFF; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: bold; display: inline-block;">
-          📥 Download CSV / Excel on Device
-        </a>
-      </div>
+      <!-- Highlight Card of Latest Candidate -->
+      <div style="background: linear-gradient(135deg, #F2F8F5 0%, #FFF8F5 100%); border: 2px solid #C7E4D6; border-radius: 14px; padding: 22px; margin-bottom: 26px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid #D8EBDD; padding-bottom: 8px;">
+          <span style="font-size: 13px; font-weight: bold; color: #2D6A4F; text-transform: uppercase; letter-spacing: 1px; font-family: sans-serif;">
+            🌟 Dados da Nova Candidata (#${totalRegistered})
+          </span>
+          <span style="background-color: #2D6A4F; color: #FFFFFF; font-family: monospace; font-size: 16px; font-weight: bold; padding: 3px 12px; border-radius: 6px;">
+            ${participant.lucky_number}
+          </span>
+        </div>
 
-      <div style="background-color: #FDF9F9; border: 1px solid #EEDCE2; border-radius: 8px; padding: 18px; margin-bottom: 26px;">
-        <h3 style="margin: 0 0 10px 0; font-size: 16px; color: #8F3D52; text-transform: uppercase; letter-spacing: 1px;">New Candidate Just Registered (#${totalRegistered})</h3>
-        <table style="width: 100%; font-size: 14px; font-family: 'Times New Roman', serif;">
-          <tr><td style="width: 140px; color: #6E615D; padding: 4px 0;"><strong>Name:</strong></td><td style="font-weight: bold; color: #2C2422;">${participant.full_name}</td></tr>
-          <tr><td style="color: #6E615D; padding: 4px 0;"><strong>Email:</strong></td><td>${participant.email}</td></tr>
-          <tr><td style="color: #6E615D; padding: 4px 0;"><strong>Lucky Number:</strong></td><td style="font-size: 18px; font-family: monospace; font-weight: bold; color: #8F3D52;">${participant.lucky_number}</td></tr>
-          <tr><td style="color: #6E615D; padding: 4px 0;"><strong>Baby's Age:</strong></td><td>${participant.baby_age}</td></tr>
-          <tr><td style="color: #6E615D; padding: 4px 0;"><strong>Country:</strong></td><td>${participant.country || 'Not specified'}</td></tr>
-          <tr><td style="color: #6E615D; padding: 4px 0;"><strong>Feeding Challenge:</strong></td><td>${participant.feeding_challenge || 'None'}</td></tr>
-          <tr><td style="color: #6E615D; padding: 4px 0;"><strong>Registration Date:</strong></td><td>${regDateFormatted}</td></tr>
+        <table style="width: 100%; font-size: 14px; font-family: 'Times New Roman', serif; border-collapse: collapse;">
+          <tr>
+            <td style="width: 150px; color: #5C524C; padding: 6px 0;"><strong>Nome Completo:</strong></td>
+            <td style="font-weight: bold; color: #1F1B1A; font-size: 15px;">${participant.full_name}</td>
+          </tr>
+          <tr>
+            <td style="color: #5C524C; padding: 6px 0;"><strong>WhatsApp / Telefone:</strong></td>
+            <td style="font-weight: bold; color: #8C2C13; font-size: 15px; font-family: monospace;">${participant.phone || 'Não informado'}</td>
+          </tr>
+          <tr>
+            <td style="color: #5C524C; padding: 6px 0;"><strong>Email:</strong></td>
+            <td style="color: #1F1B1A;">${participant.email}</td>
+          </tr>
+          <tr>
+            <td style="color: #5C524C; padding: 6px 0;"><strong>Idade do Bebé:</strong></td>
+            <td style="color: #1F1B1A;">${participant.baby_age}</td>
+          </tr>
+          <tr>
+            <td style="color: #5C524C; padding: 6px 0;"><strong>País:</strong></td>
+            <td style="color: #1F1B1A;">${participant.country || 'Não especificado'}</td>
+          </tr>
+          <tr>
+            <td style="color: #5C524C; padding: 6px 0;"><strong>Desafio Alimentar:</strong></td>
+            <td style="color: #1F1B1A;">${participant.feeding_challenge || 'Nenhum'}</td>
+          </tr>
+          <tr>
+            <td style="color: #5C524C; padding: 6px 0;"><strong>Data de Registro:</strong></td>
+            <td style="color: #5C524C;">${regDateFormatted}</td>
+          </tr>
         </table>
       </div>
 
-      <h3 style="font-size: 18px; color: #2C2422; margin: 0 0 12px 0;">Cumulative Participant List (${totalRegistered} Total)</h3>
-      <p style="font-size: 13px; color: #6E615D; margin-top: 0;">This list grows continuously with every registration:</p>
+      <!-- Cumulative Master Table -->
+      <h3 style="font-size: 18px; color: #1F1B1A; margin: 0 0 8px 0; font-family: 'Times New Roman', serif;">
+        📋 Lista Cumulativa Mestre (${totalRegistered} Inscritas)
+      </h3>
+      <p style="font-size: 13px; color: #5C524C; margin: 0 0 14px 0;">
+        Esta lista cresce continuamente a cada novo registro:
+      </p>
       
-      <div style="overflow-x: auto; margin-bottom: 24px;">
+      <div style="overflow-x: auto; margin-bottom: 26px; border: 1px solid #E5DCCE; border-radius: 10px;">
         <table style="width: 100%; border-collapse: collapse; text-align: left;">
           <thead>
-            <tr style="background-color: #FAF5F2; border-bottom: 2px solid #E8DFD5; font-size: 12px; color: #6E615D; text-transform: uppercase;">
-              <th style="padding: 8px;">#</th>
-              <th style="padding: 8px;">Code</th>
-              <th style="padding: 8px;">Name</th>
-              <th style="padding: 8px;">Email</th>
-              <th style="padding: 8px;">Age</th>
-              <th style="padding: 8px;">Country</th>
-              <th style="padding: 8px;">Date</th>
+            <tr style="background-color: #F4EFEA; border-bottom: 2px solid #E5DCCE; font-size: 11px; color: #5C524C; text-transform: uppercase; font-family: sans-serif;">
+              <th style="padding: 10px 8px;">#</th>
+              <th style="padding: 10px 8px;">Código</th>
+              <th style="padding: 10px 8px;">Nome</th>
+              <th style="padding: 10px 8px;">Telefone</th>
+              <th style="padding: 10px 8px;">Email</th>
+              <th style="padding: 10px 8px;">Fase Bebé</th>
+              <th style="padding: 10px 8px;">País</th>
+              <th style="padding: 10px 8px;">Data</th>
             </tr>
           </thead>
           <tbody>
@@ -338,20 +378,26 @@ Total Valid Entries for External Draw: ${chronologicalList.filter(p => p.registr
       </div>
 
       <!-- Instant CSV Copy Block right in email -->
-      <div style="background-color: #FAF5F2; border: 1px solid #E8DFD5; border-radius: 8px; padding: 16px; margin-bottom: 20px;">
-        <h4 style="margin: 0 0 6px 0; font-size: 14px; color: #2C2422;">📋 Instant CSV Data (Copy &amp; Paste directly into Excel / Google Sheets):</h4>
-        <p style="font-size: 12px; color: #6E615D; margin: 0 0 8px 0;">Select all text in this box, copy, and paste into Excel to export instantly:</p>
-        <pre style="background: #FFFFFF; border: 1px solid #DDD6CB; padding: 10px; font-family: monospace; font-size: 11px; color: #2C2422; max-height: 140px; overflow-y: auto; margin: 0; white-space: pre-wrap;">${rawCsvContent}</pre>
+      <div style="background-color: #FAF7F2; border: 1.5px solid #E5DCCE; border-radius: 12px; padding: 18px; margin-bottom: 22px;">
+        <h4 style="margin: 0 0 6px 0; font-size: 14px; color: #1F1B1A; font-family: 'Times New Roman', serif; font-weight: bold;">
+          📊 Dados CSV para Excel / Sheets (Copie e Cole Direto):
+        </h4>
+        <p style="font-size: 12px; color: #5C524C; margin: 0 0 10px 0;">
+          Selecione o texto abaixo com Ctrl+A, copie com Ctrl+C e cole em qualquer planilha:
+        </p>
+        <pre style="background: #FFFFFF; border: 1px solid #D8CFC3; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 11px; color: #1F1B1A; max-height: 140px; overflow-y: auto; margin: 0; white-space: pre-wrap;">${rawCsvContent}</pre>
       </div>
 
       <!-- Lucky Numbers Only -->
-      <div style="background-color: #F7F5F0; border: 1px solid #E5DFD4; border-radius: 8px; padding: 16px; margin-top: 20px;">
-        <h4 style="margin: 0 0 6px 0; font-size: 14px; color: #2C2422;">🎲 Lucky Numbers Only (Ready for Random.org Draw):</h4>
-        <pre style="background: #FFFFFF; border: 1px solid #DDD6CB; padding: 10px; font-family: monospace; font-size: 12px; color: #8F3D52; max-height: 120px; overflow-y: auto; margin: 0;">${luckyNumbersBlock}</pre>
+      <div style="background-color: #F8F5EE; border: 1.5px solid #E5DCCE; border-radius: 12px; padding: 18px; margin-bottom: 22px;">
+        <h4 style="margin: 0 0 6px 0; font-size: 14px; color: #1F1B1A; font-family: 'Times New Roman', serif; font-weight: bold;">
+          🎲 Apenas os Códigos da Sorte (Para o Sorteio no Random.org):
+        </h4>
+        <pre style="background: #FFFFFF; border: 1px solid #D8CFC3; border-radius: 8px; padding: 12px; font-family: monospace; font-size: 12px; color: #2D6A4F; font-weight: bold; max-height: 120px; overflow-y: auto; margin: 0;">${luckyNumbersBlock}</pre>
       </div>
 
-      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #EFE8E2; font-size: 12px; color: #887B78; text-align: center;">
-        BabyBites Giveaway Notifications &bull; Admin: ${config.adminEmail}
+      <div style="margin-top: 28px; padding-top: 18px; border-top: 1px solid #EDE4DA; font-size: 12px; color: #8A8077; text-align: center; font-family: sans-serif;">
+        BabyBites Giveaway Automation &bull; Encerramento: <strong>20/11/2026</strong> &bull; Vencedores: <strong>21/11/2026</strong>
       </div>
     </div>
   </body>
@@ -486,30 +532,84 @@ Total Valid Entries for External Draw: ${chronologicalList.filter(p => p.registr
   // 2. Send Participant Confirmation Email (direct to participant)
   console.log(`[Giveaway] Dispatching confirmation email to participant: ${participant.email}`);
   const participantSubject = `You're officially entered, mama! 💗 Your Lucky Number: ${participant.lucky_number}`;
-  const participantText = `Hi ${participant.full_name}!\n\nYou're officially entered into the BabyBites Early Access Giveaway.\n\nYour lucky number is: ${participant.lucky_number}\n\nImportant Dates:\n- Registration Closes: November 20, 2026\n- External Draw: November 21–25, 2026\n- Official Launch: November 30, 2026 (12 Moms win 7 days free VIP access!)\n\nGood luck! 💗\nBabyBites Team`;
+  const participantText = `Hi ${participant.full_name}!\n\nYou're officially entered into the BabyBites Early Access Giveaway.\n\nYour lucky number is: ${participant.lucky_number}\n\nIMPORTANT — VIP GROUP VERIFICATION:\nWe registered your WhatsApp/Phone number: ${participant.phone || 'Not specified'}.\nOur team will verify each number against our official VIP Mom Community. Participants not in the VIP group will be automatically disqualified.\n\nCampaign Schedule:\n- Registration Closes: November 20, 2026 (11:59 PM EST)\n- 7 Days Free VIP Access Begins: November 20, 2026\n- 12 Winners Announced: November 21, 2026\n\nGood luck! 💗\nBabyBites Team`;
+
   const participantHtml = `
-    <div style="font-family: 'Times New Roman', serif; max-width: 580px; margin: 0 auto; background: #FFFFFF; border: 1px solid #EAE0D5; border-radius: 12px; padding: 28px; color: #2C2422;">
-      <h2 style="color: #2D6A4F; font-size: 24px; margin-top: 0;">You're officially entered, mama! 💗</h2>
-      <p style="font-size: 15px; line-height: 1.6; color: #5A4E4B;">Hi <strong>${participant.full_name}</strong>,</p>
-      <p style="font-size: 15px; line-height: 1.6; color: #5A4E4B;">Your registration for the <strong>BabyBites Early Access Giveaway</strong> has been received and permanently secured!</p>
+  <!DOCTYPE html>
+  <html>
+  <head><meta charset="utf-8"></head>
+  <body style="font-family: 'Times New Roman', Times, serif; background-color: #FAF7F2; padding: 24px 12px; color: #2C2422; margin: 0;">
+    <div style="max-width: 600px; margin: 0 auto; background: #FFFFFF; border: 1.5px solid #E5DCCE; border-radius: 20px; padding: 32px 28px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
       
-      <div style="background-color: #F2F8F5; border: 2px dashed #2D6A4F; border-radius: 10px; padding: 20px; text-align: center; margin: 24px 0;">
-        <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; font-weight: bold; color: #1B4332; letter-spacing: 1px;">Your Lucky Number Is:</p>
-        <div style="font-size: 38px; font-weight: 800; font-family: monospace; color: #2D6A4F; letter-spacing: 2px;">[${participant.lucky_number}]</div>
-        <p style="margin: 8px 0 0 0; font-size: 12px; color: #6E615D;">Keep this email safe. Your lucky number will be used in our external random draw on Random.org.</p>
+      <!-- Top Brand Header -->
+      <div style="text-align: center; border-bottom: 2px solid #EAE0D4; padding-bottom: 18px; margin-bottom: 24px;">
+        <span style="display: inline-block; background-color: #E8F5E9; color: #1B4332; font-family: sans-serif; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; padding: 4px 14px; border-radius: 20px; border: 1px solid #C7E4D6; margin-bottom: 10px;">
+          BabyBites Early Access VIP Pass
+        </span>
+        <h1 style="font-size: 28px; color: #1F1B1A; margin: 0; font-family: 'Times New Roman', serif; font-weight: bold;">
+          You're officially entered, mama! 💗
+        </h1>
+        <p style="margin: 6px 0 0 0; color: #5C524C; font-size: 15px;">
+          Nourished with Love &bull; 300+ Pediatrician Recipes
+        </p>
       </div>
 
-      <h3 style="font-size: 16px; color: #2C2422; border-bottom: 1px solid #EFE8E2; padding-bottom: 6px;">Giveaway Key Dates:</h3>
-      <ul style="font-size: 14px; color: #5A4E4B; line-height: 1.8;">
-        <li><strong>November 20, 2026:</strong> Registration closes at 11:59 PM EST.</li>
-        <li><strong>November 21–25, 2026:</strong> External random selection of 12 lucky moms.</li>
-        <li><strong>November 30, 2026:</strong> Official launch date & 7-day complimentary VIP access begins!</li>
-      </ul>
-
-      <p style="font-size: 13px; color: #887B78; margin-top: 24px; border-top: 1px solid #EFE8E2; padding-top: 14px; text-align: center;">
-        BabyBites Early Access Giveaway &bull; Baby Nutrition with Love
+      <p style="font-size: 16px; line-height: 1.6; color: #2C2422; margin: 0 0 16px 0;">
+        Hi <strong>${participant.full_name}</strong>,
       </p>
+      <p style="font-size: 15px; line-height: 1.6; color: #5C524C; margin: 0 0 24px 0;">
+        Your entry for the <strong>BabyBites Early Access Giveaway</strong> has been received and permanently secured in our database!
+      </p>
+      
+      <!-- Lucky Number Ticket Box -->
+      <div style="background: linear-gradient(135deg, #F2F8F5 0%, #FFFDF9 100%); border: 2.5px dashed #2D6A4F; border-radius: 16px; padding: 26px 20px; text-align: center; margin: 0 0 24px 0;">
+        <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; font-weight: bold; color: #1B4332; letter-spacing: 1.5px; font-family: sans-serif;">
+          ✨ Seu Número Oficial da Sorte ✨
+        </p>
+        <div style="font-size: 44px; font-weight: 800; font-family: monospace; color: #2D6A4F; letter-spacing: 3px; margin: 6px 0;">
+          [${participant.lucky_number}]
+        </div>
+        <p style="margin: 8px 0 0 0; font-size: 13px; color: #5C524C;">
+          Guarde este código com carinho. Ele será usado no nosso sorteio auditado e transparente no Random.org!
+        </p>
+      </div>
+
+      <!-- Mandatory VIP Group Warning -->
+      <div style="background-color: #FFF6F0; border: 2px solid #FBD3C1; border-radius: 14px; padding: 18px 20px; margin-bottom: 24px;">
+        <div style="font-size: 13px; font-weight: bold; color: #B23B1B; text-transform: uppercase; letter-spacing: 1px; font-family: sans-serif; margin-bottom: 6px;">
+          ⚠️ Aviso Importante — Verificação do Grupo VIP
+        </div>
+        <p style="font-size: 14px; color: #8C2C13; line-height: 1.6; margin: 0;">
+          Registramos o seu número de WhatsApp: <strong>${participant.phone || 'Não informado'}</strong>.<br/>
+          A nossa equipe vai verificar cada número para saber se você está no <strong>Grupo VIP Oficial</strong>. Todas as mães que não estiverem no grupo serão desqualificadas do sorteio.
+        </p>
+      </div>
+
+      <!-- Timeline Schedule -->
+      <div style="background-color: #FAF8F5; border: 1px solid #EAE0D4; border-radius: 14px; padding: 20px; margin-bottom: 24px;">
+        <h3 style="font-size: 16px; color: #1F1B1A; margin: 0 0 12px 0; font-family: 'Times New Roman', serif; font-weight: bold;">
+          Datas Oficiais da Campanha:
+        </h3>
+        <ul style="font-size: 14px; color: #5C524C; line-height: 1.9; margin: 0; padding-left: 20px;">
+          <li><strong>20 de Novembro de 2026:</strong> Encerramento das inscrições e início dos 7 dias de Acesso Gratuito VIP!</li>
+          <li><strong>21 de Novembro de 2026:</strong> Anúncio oficial das 12 Mães Vencedoras do sorteio.</li>
+        </ul>
+      </div>
+
+      <!-- Details Summary -->
+      <table style="width: 100%; font-size: 13px; color: #5C524C; border-collapse: collapse; margin-bottom: 20px;">
+        <tr><td style="padding: 4px 0; width: 140px;"><strong>Nome:</strong></td><td style="color: #1F1B1A; font-weight: bold;">${participant.full_name}</td></tr>
+        <tr><td style="padding: 4px 0;"><strong>WhatsApp:</strong></td><td style="color: #1F1B1A; font-weight: bold; font-family: monospace;">${participant.phone || '—'}</td></tr>
+        <tr><td style="padding: 4px 0;"><strong>Email:</strong></td><td style="color: #1F1B1A;">${participant.email}</td></tr>
+        <tr><td style="padding: 4px 0;"><strong>Fase do Bebé:</strong></td><td style="color: #1F1B1A;">${participant.baby_age}</td></tr>
+      </table>
+
+      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #EDE4DA; font-size: 13px; color: #8A8077; text-align: center;">
+        Boa sorte, mamãe! 💗 &bull; Equipe BabyBites
+      </div>
     </div>
+  </body>
+  </html>
   `;
 
   const participantResult = await sendEmailPayload({
@@ -634,6 +734,7 @@ export async function registerParticipant(data: RegistrationFormData): Promise<{
     full_name: data.fullName.trim(),
     email: data.email.trim(),
     normalized_email: normalized,
+    phone: data.phone.trim(),
     baby_age: data.babyAge,
     country: data.country?.trim() || undefined,
     feeding_challenge: data.feedingChallenge?.trim() || undefined,

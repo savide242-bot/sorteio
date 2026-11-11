@@ -66,7 +66,7 @@ export const PrivacyPolicyPage: React.FC = () => {
                 <li>Assigning unique sequential lucky numbers (BB0001, BB0002, etc.);</li>
                 <li>Notifying the campaign administrator (<code className="text-rose-600">moianito2007@gmail.com</code>) of each valid submission;</li>
                 <li>Exporting participant lucky numbers for external verified third-party random drawing;</li>
-                <li>Contacting the 5 chosen mothers on or before November 30, 2026 to grant complimentary 7-day VIP access;</li>
+                <li>Contacting the 12 chosen mothers on November 21, 2026 to grant complimentary 7-day VIP access starting November 20;</li>
                 <li>Sending product launch announcements relating to BabyBites.</li>
               </ul>
             </section>
