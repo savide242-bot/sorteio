@@ -8,11 +8,11 @@ const STORAGE_KEY_SEQ = 'babybites_lucky_seq_v1';
 const STORAGE_KEY_WEBHOOK_EVENTS = 'babybites_webhook_events_v1';
 
 export const DEFAULT_CONFIG: CampaignConfig = {
-  adminEmail: 'moianito2007@gmail.com',
-  resendApiKey: '',
-  supabaseUrl: '',
-  supabaseAnonKey: '',
-  webhookUrl: '',
+  adminEmail: (import.meta as any).env?.VITE_ADMIN_EMAIL || 'octaviomoiane2007@gmail.com',
+  resendApiKey: (import.meta as any).env?.VITE_RESEND_API_KEY || '',
+  supabaseUrl: (import.meta as any).env?.VITE_SUPABASE_URL || '',
+  supabaseAnonKey: (import.meta as any).env?.VITE_SUPABASE_ANON_KEY || '',
+  webhookUrl: (import.meta as any).env?.VITE_WEBHOOK_URL || 'http://localhost:5174/api/webhook',
   closingDate: '2026-11-20T23:59:59Z',
   launchDate: '2026-11-30T00:00:00Z',
   maxWinners: 5,

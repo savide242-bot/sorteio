@@ -23,3 +23,8 @@ dist-ssr
 *.sln
 *.sw?
 *.tsbuildinfo
+standalone-dashboard/node_modules
+standalone-dashboard/dist
+.env
+.env.local
+.env.*.local
