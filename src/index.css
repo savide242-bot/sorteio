@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body {
+    @apply bg-[#FCFAF7] text-[#24211D] font-sans antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, .font-heading {
+    font-family: 'Fraunces', Georgia, serif;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Glass card styling */
+.clean-card {
+  background: #FFFFFF;
+  border: 1px solid #EFEAE2;
+  box-shadow: 0 4px 20px -2px rgba(45, 106, 79, 0.05);
+}
+
+/* Custom smooth transitions */
+.carousel-btn {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
