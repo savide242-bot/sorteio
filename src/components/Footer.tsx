@@ -11,9 +11,11 @@ export const Footer: React.FC = () => {
           {/* Brand Col */}
           <div className="md:col-span-2 space-y-3">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-[#2D6A4F] flex items-center justify-center text-white text-lg">
-                🥣
-              </div>
+              <img 
+                src="/babybites-logo.png" 
+                alt="BabyBites Logo" 
+                className="w-10 h-10 rounded-full object-contain bg-white p-0.5 border border-[#52B788]/40 shadow-sm" 
+              />
               <span className="text-2xl font-bold tracking-tight text-white font-serif">
                 Baby<span className="text-[#52B788]">Bites</span>
               </span>

@@ -149,9 +149,11 @@ export const AdminLayout: React.FC<{ children?: React.ReactNode }> = ({ children
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-500 to-pink-500 flex items-center justify-center text-white font-bold text-lg">
-                🥣
-              </div>
+              <img 
+                src="/babybites-logo.png" 
+                alt="BabyBites Logo" 
+                className="w-9 h-9 rounded-full object-contain bg-white p-0.5 border border-stone-700 shadow-sm" 
+              />
               <div>
                 <span className="font-serif font-bold text-lg text-white">
                   Baby<span className="text-rose-400">Bites</span>

@@ -20,22 +20,24 @@ export const Navbar: React.FC = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-20">
           
-          {/* Brand Logo matching the app screenshot */}
+          {/* Official Brand Logo */}
           <Link to="/early-access" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 rounded-2xl bg-[#E5F4EC] border border-[#C7E4D6] flex items-center justify-center text-xl shadow-sm group-hover:scale-105 transition-transform">
-              <span>🥣</span>
-            </div>
+            <img 
+              src="/babybites-logo.png" 
+              alt="BabyBites Logo" 
+              className="w-12 h-12 object-contain rounded-full shadow-sm border border-[#EAE0D4] bg-white group-hover:scale-105 transition-transform" 
+            />
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-2xl sm:text-3xl font-bold font-serif tracking-tight text-[#24211D]">
+                <span className="text-2xl sm:text-3xl font-bold font-serif tracking-tight text-[#1F1B1A]">
                   Baby<span className="text-[#2D6A4F]">Bites</span>
                 </span>
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#E5F4EC] text-[#1B4332] border border-[#C7E4D6]">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#E8F5E9] text-[#1B4332] border border-[#C7E4D6]">
                   GIVEAWAY
                 </span>
               </div>
-              <p className="text-[11px] text-[#7A7067] -mt-0.5 font-sans font-medium">
-                Nourished with Love &bull; 300+ Baby Meals
+              <p className="text-[11px] text-[#756A63] -mt-0.5 font-sans font-medium">
+                Nourished with Love &bull; 300+ Pediatrician Recipes
               </p>
             </div>
           </Link>
