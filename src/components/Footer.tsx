@@ -85,7 +85,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Notice */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-[#7B9E8B] gap-3">
           <p>&copy; 2026 BabyBites Inc. All rights reserved.</p>
-          <p>No purchase necessary. 5 winners selected via external verified random draw.</p>
+          <p>No purchase necessary. 12 winners selected via external verified random draw.</p>
         </div>
       </div>
     </footer>

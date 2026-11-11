@@ -129,7 +129,7 @@ Registration Date: ${regDateFormatted}`;
           <h3 style="margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase; color: #374151; letter-spacing: 1px;">Key Campaign Dates</h3>
           <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #4B5563; line-height: 1.6;">
             <li><strong>November 20, 2026:</strong> Registration closes at 11:59 PM EST.</li>
-            <li><strong>November 21–25, 2026:</strong> External random selection of 5 lucky moms.</li>
+            <li><strong>November 21–25, 2026:</strong> External random selection of 12 lucky moms.</li>
             <li><strong>November 30, 2026:</strong> Official launch date &amp; 7-day VIP access begins!</li>
           </ul>
         </div>

@@ -116,7 +116,7 @@ export const RegistrationForm: React.FC = () => {
         </h3>
 
         <p className="text-xs sm:text-sm text-[#5D554E] mt-2 max-w-md mx-auto leading-relaxed">
-          5 lucky moms will win complimentary 7-day VIP access to all 300+ recipes, weekly planners, and allergy tracking before our launch on November 30!
+          12 lucky moms will win complimentary 7-day VIP access to all 300+ recipes, weekly planners, and allergy tracking before our launch on November 30!
         </p>
       </div>
 

@@ -82,7 +82,7 @@ export const GiveawayRulesPage: React.FC = () => {
                 <li><strong>No Internal Draw Button:</strong> This website does not execute any winner selection algorithms or random draws internally.</li>
                 <li>Following the November 20 deadline, the administrator exports the complete list of eligible sequential lucky numbers.</li>
                 <li>The draw is conducted using an independent certified random number generation platform (such as Random.org).</li>
-                <li>Exactly five (5) winning numbers will be selected at random from among all eligible entries.</li>
+                <li>Exactly twelve (12) winning numbers will be selected at random from among all eligible entries.</li>
               </ul>
             </section>
 
@@ -91,7 +91,7 @@ export const GiveawayRulesPage: React.FC = () => {
                 6. Prizes &amp; Value
               </h2>
               <p>
-                Five (5) Winners will each receive:
+                Twelve (12) Winners will each receive:
               </p>
               <ul className="list-disc pl-5 space-y-1.5">
                 <li>Seven (7) full consecutive days of complimentary VIP Early Access to the entire BabyBites platform ahead of the public launch;</li>

@@ -15,7 +15,7 @@ export const DEFAULT_CONFIG: CampaignConfig = {
   webhookUrl: (import.meta as any).env?.VITE_WEBHOOK_URL || 'http://localhost:5174/api/webhook',
   closingDate: '2026-11-20T23:59:59Z',
   launchDate: '2026-11-30T00:00:00Z',
-  maxWinners: 5,
+  maxWinners: 12,
   isRegistrationOpen: true,
 };
 

@@ -7,31 +7,20 @@ export default {
   theme: {
     extend: {
       colors: {
-        sage: {
-          50: '#F2F8F5',
-          100: '#E4F2EB',
-          200: '#C7E4D6',
-          500: '#2D6A4F',
-          600: '#245640',
-          700: '#1B4332',
-          800: '#143326',
-        },
-        peach: {
-          50: '#FFF7F2',
-          100: '#FEEFE6',
-          200: '#FCD8C5',
-          500: '#E76F51',
-          600: '#D55C3D',
-        },
-        warmcream: {
-          50: '#FCFAF7',
-          100: '#F8F4EE',
-          200: '#F0E9DF',
-          300: '#E5DCCE',
-        },
-        charcoal: {
-          800: '#38332E',
-          900: '#24211D',
+        brand: {
+          forest: '#2D6A4F',
+          'forest-dark': '#1B4332',
+          'forest-light': '#40916C',
+          mint: '#E8F5E9',
+          'mint-border': '#C7E4D6',
+          cream: '#FAF7F2',
+          'cream-light': '#FFFDF9',
+          'cream-dark': '#F0E9DF',
+          apricot: '#E76F51',
+          'apricot-light': '#FFF1EB',
+          dark: '#22201D',
+          muted: '#6B645C',
+          lightmuted: '#9E958A',
         }
       },
       fontFamily: {
@@ -39,8 +28,19 @@ export default {
         sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
       },
       boxShadow: {
-        'clean': '0 4px 20px -2px rgba(45, 106, 79, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.02)',
-        'app': '0 16px 40px -8px rgba(33, 40, 36, 0.12), 0 6px 16px -4px rgba(0, 0, 0, 0.04)',
+        'glow-forest': '0 12px 32px -4px rgba(45, 106, 79, 0.22)',
+        'glow-apricot': '0 12px 32px -4px rgba(231, 111, 81, 0.2)',
+        'card-elevated': '0 20px 40px -10px rgba(34, 32, 29, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.03)',
+        'card-soft': '0 10px 25px -5px rgba(34, 32, 29, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02)',
+      },
+      keyframes: {
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-6px)' },
+        }
+      },
+      animation: {
+        float: 'float 4s ease-in-out infinite',
       }
     },
   },

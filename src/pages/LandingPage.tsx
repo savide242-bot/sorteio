@@ -27,8 +27,8 @@ export const LandingPage: React.FC = () => {
 
   const faqs = [
     {
-      q: 'How are the 5 lucky winners chosen?',
-      a: 'Transparency is our top priority. After registration closes on November 20, 2026 at 11:59 PM EST, all eligible lucky numbers are exported directly into an external verified drawing application (Random.org). 5 unique winning numbers will be drawn and contacted directly via email.'
+      q: 'How are the 12 lucky winners chosen?',
+      a: 'Transparency is our top priority. After registration closes on November 20, 2026 at 11:59 PM EST, all eligible lucky numbers are exported directly into an external verified drawing application (Random.org). 12 unique winning numbers will be drawn and contacted directly via email.'
     },
     {
       q: 'Does it cost anything to register or participate?',
@@ -36,7 +36,7 @@ export const LandingPage: React.FC = () => {
     },
     {
       q: 'What is included in the 7-day early access prize?',
-      a: 'The 5 winning moms will enjoy complete unlimited access to BabyBites 7 days prior to our official public launch on November 30, 2026. This includes all 300+ baby recipes, stage-by-stage meal plans, allergen tracking, pantry matcher tool, and automatic grocery list generator.'
+      a: 'The 12 winning moms will enjoy complete unlimited access to BabyBites 7 days prior to our official public launch on November 30, 2026. This includes all 300+ baby recipes, stage-by-stage meal plans, allergen tracking, pantry matcher tool, and automatic grocery list generator.'
     },
     {
       q: 'When will I receive my lucky number?',
@@ -67,18 +67,18 @@ export const LandingPage: React.FC = () => {
           <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E5F4EC] border border-[#C7E4D6] text-[#1B4332] text-xs font-bold uppercase tracking-wider mb-5 shadow-sm">
               <span className="w-2 h-2 rounded-full bg-[#2D6A4F] animate-ping" />
-              <span>5 Lucky Moms &bull; 7 Days Free VIP Access</span>
+              <span>12 Lucky Moms &bull; 7 Days Free VIP Access</span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-bold text-[#24211D] tracking-tight leading-[1.18] mb-5">
               Be One of Our <br className="hidden sm:inline" />
               <span className="text-[#2D6A4F] italic">
-                5 Early Access Moms!
+                12 Early Access Moms!
               </span>
             </h1>
 
             <p className="text-base sm:text-xl text-[#5D554E] leading-relaxed max-w-2xl mx-auto font-normal">
-              We’re giving 5 lucky moms the opportunity to experience <strong className="text-[#24211D] font-bold">BabyBites for 7 days, completely free</strong>, before our official launch on November 30.
+              We’re giving 12 lucky moms the opportunity to experience <strong className="text-[#24211D] font-bold">BabyBites for 7 days, completely free</strong>, before our official launch on November 30.
             </p>
           </div>
 
@@ -86,10 +86,10 @@ export const LandingPage: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4 max-w-4xl mx-auto mb-8 sm:mb-12">
             <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-white border border-[#EFE9DF] shadow-clean">
               <div className="w-11 h-11 rounded-2xl bg-[#E5F4EC] text-[#1B4332] flex items-center justify-center shrink-0 font-serif font-bold text-lg">
-                5
+                12
               </div>
               <div>
-                <h4 className="text-sm font-bold text-[#24211D]">5 Lucky Moms</h4>
+                <h4 className="text-sm font-bold text-[#24211D]">12 Lucky Moms</h4>
                 <p className="text-xs text-[#7A7067]">Selected via external random draw</p>
               </div>
             </div>
@@ -199,7 +199,7 @@ export const LandingPage: React.FC = () => {
                 <span className="text-2xl font-serif font-bold text-[#2563EB] block mb-2">03</span>
                 <h3 className="text-base font-bold text-[#24211D] mb-2 font-serif">External Draw</h3>
                 <p className="text-xs text-[#5D554E] leading-relaxed">
-                  All eligible numbers are exported into an independent verified draw software (Random.org). 5 winning mothers are chosen.
+                  All eligible numbers are exported into an independent verified draw software (Random.org). 12 winning mothers are chosen.
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-[#EAE2D8] text-[11px] font-bold text-[#2563EB]">
@@ -213,7 +213,7 @@ export const LandingPage: React.FC = () => {
                 <span className="text-2xl font-serif font-bold text-[#2D6A4F] block mb-2">04</span>
                 <h3 className="text-base font-bold text-[#24211D] mb-2 font-serif">7 Days Free VIP</h3>
                 <p className="text-xs text-[#5D554E] leading-relaxed">
-                  Starting <strong>November 30, 2026</strong>, the 5 winners receive free 7-day VIP access to all BabyBites recipes and meal plans!
+                  Starting <strong>November 30, 2026</strong>, the 12 winners receive free 7-day VIP access to all BabyBites recipes and meal plans!
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-[#EAE2D8] text-[11px] font-bold text-[#2D6A4F]">
