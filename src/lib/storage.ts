@@ -1,21 +1,102 @@
-import { Participant, RegistrationFormData, EmailLog, CampaignConfig, DashboardStats } from '../types/giveaway';
+import { Participant, RegistrationFormData, EmailLog, CampaignConfig, DashboardStats, WebhookEvent } from '../types/giveaway';
 import { supabase, isSupabaseConfigured } from './supabase';
 
 const STORAGE_KEY_PARTICIPANTS = 'babybites_giveaway_participants_v1';
 const STORAGE_KEY_EMAIL_LOGS = 'babybites_giveaway_email_logs_v1';
 const STORAGE_KEY_CONFIG = 'babybites_giveaway_config_v1';
 const STORAGE_KEY_SEQ = 'babybites_lucky_seq_v1';
+const STORAGE_KEY_WEBHOOK_EVENTS = 'babybites_webhook_events_v1';
 
 export const DEFAULT_CONFIG: CampaignConfig = {
   adminEmail: 'moianito2007@gmail.com',
   resendApiKey: '',
   supabaseUrl: '',
   supabaseAnonKey: '',
+  webhookUrl: '',
   closingDate: '2026-11-20T23:59:59Z',
   launchDate: '2026-11-30T00:00:00Z',
   maxWinners: 5,
   isRegistrationOpen: true,
 };
+
+// Webhook events logging and retrieval for external dashboard
+export function getStoredWebhookEvents(): WebhookEvent[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_WEBHOOK_EVENTS);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function recordWebhookEvent(event: WebhookEvent): void {
+  const list = getStoredWebhookEvents();
+  list.unshift(event);
+  localStorage.setItem(STORAGE_KEY_WEBHOOK_EVENTS, JSON.stringify(list.slice(0, 100)));
+}
+
+// Dispatches real-time webhook whenever any participant registers
+export async function dispatchGiveawayWebhook(
+  participant: Participant,
+  cumulativeList: Participant[]
+): Promise<WebhookEvent> {
+  const config = getCampaignConfig();
+  const webhookUrl = config.webhookUrl || (import.meta as any).env?.VITE_WEBHOOK_URL || '';
+
+  const chronologicalList = [...cumulativeList].sort(
+    (a, b) => new Date(a.registered_at).getTime() - new Date(b.registered_at).getTime()
+  );
+
+  const eventPayload: WebhookEvent = {
+    id: 'evt_' + Math.random().toString(36).substring(2, 11) + '_' + Date.now(),
+    event: 'giveaway.participant.registered',
+    timestamp: new Date().toISOString(),
+    participant: {
+      id: participant.id,
+      lucky_number: participant.lucky_number,
+      full_name: participant.full_name,
+      email: participant.email,
+      baby_age: participant.baby_age,
+      country: participant.country,
+      feeding_challenge: participant.feeding_challenge,
+      registered_at: participant.registered_at,
+      registration_status: participant.registration_status,
+    },
+    cumulative: {
+      total_participants: chronologicalList.length,
+      latest_number: participant.lucky_number,
+      all_lucky_numbers: chronologicalList
+        .filter(p => p.registration_status === 'valid')
+        .map(p => p.lucky_number),
+    },
+    target_url: webhookUrl || undefined,
+  };
+
+  if (webhookUrl && webhookUrl.startsWith('http')) {
+    try {
+      const res = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-BabyBites-Event': 'giveaway.participant.registered',
+        },
+        body: JSON.stringify(eventPayload),
+      });
+
+      eventPayload.status = res.ok ? 'delivered' : 'failed';
+      eventPayload.response_status = res.status;
+    } catch (e) {
+      eventPayload.status = 'failed';
+      console.warn('Webhook dispatch failed:', e);
+    }
+  } else {
+    // Recorded for internal realtime dashboard receiver
+    eventPayload.status = 'simulated';
+  }
+
+  recordWebhookEvent(eventPayload);
+  return eventPayload;
+}
 
 // Get current config
 export function getCampaignConfig(): CampaignConfig {
@@ -487,6 +568,7 @@ export async function registerParticipant(data: RegistrationFormData): Promise<{
 
         // Trigger emails with cumulative list
         dispatchGiveawayEmails(participant, localList);
+        dispatchGiveawayWebhook(participant, localList);
         return { success: true, participant };
       }
     } catch (rpcErr: any) {
@@ -528,6 +610,9 @@ export async function registerParticipant(data: RegistrationFormData): Promise<{
 
   // Dispatch emails with complete cumulative list!
   dispatchGiveawayEmails(newParticipant, existing);
+
+  // Dispatch real-time webhook event!
+  dispatchGiveawayWebhook(newParticipant, existing);
 
   return { success: true, participant: newParticipant };
 }

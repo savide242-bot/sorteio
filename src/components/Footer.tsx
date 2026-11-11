@@ -75,13 +75,8 @@ export const Footer: React.FC = () => {
                 <Calendar className="w-4 h-4 text-[#52B788] mt-0.5 shrink-0" />
                 <span>Entries close Nov 20, 2026 at 11:59 PM EST.</span>
               </li>
-              <li className="pt-2">
-                <Link
-                  to="/admin-giveaway"
-                  className="text-xs text-[#52B788] hover:underline"
-                >
-                  Admin Management Portal &rarr;
-                </Link>
+              <li className="pt-2 text-xs text-[#7B9E8B]">
+                Real-time automated webhook &amp; email delivery enabled.
               </li>
             </ul>
           </div>

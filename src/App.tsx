@@ -12,14 +12,15 @@ import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
 import { AdminParticipantsPage } from './pages/admin/AdminParticipantsPage';
 import { AdminExportPage } from './pages/admin/AdminExportPage';
 import { AdminSettingsPage } from './pages/admin/AdminSettingsPage';
+import { WebhookControlDashboard } from './pages/WebhookControlDashboard';
 
 export const App: React.FC = () => {
   const location = useLocation();
-  const isAdmin = location.pathname.startsWith('/admin-giveaway');
+  const isDedicatedPortal = location.pathname.startsWith('/admin-giveaway') || location.pathname === '/control-dashboard';
 
   return (
     <div className="flex flex-col min-h-screen">
-      {!isAdmin && <Navbar />}
+      {!isDedicatedPortal && <Navbar />}
 
       <main className="flex-1">
         <Routes>
@@ -29,6 +30,9 @@ export const App: React.FC = () => {
           <Route path="/registration-success" element={<RegistrationSuccessPage />} />
           <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/giveaway-rules" element={<GiveawayRulesPage />} />
+
+          {/* Real-time Webhook Event & Control Dashboard */}
+          <Route path="/control-dashboard" element={<WebhookControlDashboard />} />
 
           {/* Admin Routes with nested AdminLayout */}
           <Route path="/admin-giveaway" element={<AdminLayout />}>
@@ -43,7 +47,7 @@ export const App: React.FC = () => {
         </Routes>
       </main>
 
-      {!isAdmin && <Footer />}
+      {!isDedicatedPortal && <Footer />}
     </div>
   );
 };

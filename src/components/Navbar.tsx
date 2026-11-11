@@ -53,20 +53,11 @@ export const Navbar: React.FC = () => {
             ))}
           </nav>
 
-          {/* Right Action Buttons */}
+          {/* Right Action Button */}
           <div className="hidden sm:flex items-center gap-3">
-            <Link
-              to="/admin-giveaway"
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-semibold rounded-xl border border-[#DFD6CB] text-[#5D554E] hover:bg-[#F2ECE3] transition-colors"
-              title="Admin Portal"
-            >
-              <Shield className="w-3.5 h-3.5 text-[#8A8077]" />
-              <span>Admin</span>
-            </Link>
-
             <a
               href="/early-access#register-section"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#2D6A4F] hover:bg-[#245640] text-white shadow-md shadow-[#2D6A4F22] hover:shadow-lg transition-all"
+              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#2D6A4F] hover:bg-[#245640] text-white shadow-md shadow-[#2D6A4F22] hover:shadow-lg transition-all"
             >
               <Heart className="w-3.5 h-3.5 fill-current text-[#FCD8C5]" />
               <span>Enter Giveaway</span>
@@ -108,14 +99,14 @@ export const Navbar: React.FC = () => {
           ))}
 
           <div className="pt-2">
-            <Link
-              to="/admin-giveaway"
+            <a
+              href="/early-access#register-section"
               onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center justify-center gap-2 py-3 rounded-2xl border border-[#DFD6CB] text-xs font-semibold text-[#5D554E]"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-[#2D6A4F] text-white text-xs font-bold uppercase tracking-wider"
             >
-              <Shield className="w-4 h-4" />
-              <span>Admin Portal Login</span>
-            </Link>
+              <Heart className="w-3.5 h-3.5 fill-current text-[#FCD8C5]" />
+              <span>Claim Free Lucky Number</span>
+            </a>
           </div>
         </div>
       )}

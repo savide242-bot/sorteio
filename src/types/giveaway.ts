@@ -48,11 +48,37 @@ export interface DashboardStats {
   latestRegistrations: Participant[];
 }
 
+export interface WebhookEvent {
+  id: string;
+  event: 'giveaway.participant.registered' | 'giveaway.test.event';
+  timestamp: string;
+  participant: {
+    id: string;
+    lucky_number: string;
+    full_name: string;
+    email: string;
+    baby_age: string;
+    country?: string;
+    feeding_challenge?: string;
+    registered_at: string;
+    registration_status: string;
+  };
+  cumulative: {
+    total_participants: number;
+    latest_number: string;
+    all_lucky_numbers: string[];
+  };
+  status?: 'delivered' | 'failed' | 'simulated';
+  response_status?: number;
+  target_url?: string;
+}
+
 export interface CampaignConfig {
   adminEmail: string;
   resendApiKey: string;
   supabaseUrl: string;
   supabaseAnonKey: string;
+  webhookUrl?: string;
   closingDate: string; // ISO string: 2026-11-20T23:59:59Z
   launchDate: string; // ISO string: 2026-11-30T00:00:00Z
   maxWinners: number;
