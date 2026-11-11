@@ -40,28 +40,31 @@ export const RegistrationSuccessPage: React.FC = () => {
   const luckyCode = participant?.lucky_number || 'BB0001';
 
   return (
-    <div className="min-h-screen bg-[#FCFAF7] py-10 sm:py-16 flex flex-col items-center justify-center px-4 font-sans text-[#24211D]">
-      <div className="max-w-md w-full bg-white rounded-3xl p-6 sm:p-9 border border-[#EFE9DF] shadow-app text-center">
+    <div className="min-h-screen bg-maternal-mesh py-10 sm:py-16 flex flex-col items-center justify-center px-4 font-sans text-[#2C2422]">
+      <div className="max-w-md w-full bg-white/95 rounded-[32px] p-6 sm:p-9 border-2 border-[#E8DFD3] shadow-[0_20px_50px_rgba(45,106,79,0.1)] text-center relative overflow-hidden">
         
+        {/* Soft gradient banner decoration */}
+        <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#2D6A4F] via-[#F4A261] to-[#E76F51]" />
+
         {/* Heart Icon */}
-        <div className="w-16 h-16 rounded-full bg-[#E5F4EC] border-2 border-[#C7E4D6] mx-auto flex items-center justify-center text-[#2D6A4F] mb-5 shadow-sm">
-          <Heart className="w-8 h-8 fill-current" />
+        <div className="w-16 h-16 rounded-full bg-[#E8F5E9] border-2 border-[#C7E4D6] mx-auto flex items-center justify-center text-[#2D6A4F] mb-5 shadow-sm mt-2">
+          <Heart className="w-8 h-8 fill-current text-[#2D6A4F]" />
         </div>
 
-        {/* Required Headline */}
+        {/* Required Headline in Times New Roman */}
         <div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs uppercase tracking-wider font-bold text-[#1B4332] bg-[#E5F4EC] border border-[#C7E4D6] mb-3">
+          <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs uppercase tracking-wider font-bold text-[#1B4332] bg-[#E8F5E9] border border-[#C7E4D6] mb-3">
             <Sparkles className="w-3.5 h-3.5 text-[#2D6A4F]" />
             <span>Entry Confirmed</span>
           </span>
 
-          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#24211D] tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl font-serif font-bold text-[#1F1B1A] tracking-tight leading-tight">
             You’re officially entered, mama! 💗
           </h1>
 
-          <p className="text-xs sm:text-sm text-[#5D554E] mt-2">
+          <p className="text-xs sm:text-sm text-[#5C524C] mt-2">
             {participant?.full_name ? (
-              <>Thank you, <strong className="text-[#24211D]">{participant.full_name}</strong>! Your entry is permanently recorded.</>
+              <>Thank you, <strong className="text-[#1F1B1A]">{participant.full_name}</strong>! Your entry is permanently secured.</>
             ) : (
               <>Your registration is complete and secured in the BabyBites Giveaway.</>
             )}

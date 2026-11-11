@@ -53,79 +53,83 @@ export const LandingPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FCFAF7] text-[#24211D] font-sans overflow-x-hidden">
-      {/* Top Announcement Bar */}
-      <div className="bg-[#2D6A4F] text-white py-2.5 px-4 text-center text-xs sm:text-sm font-medium tracking-wide">
-        <span className="font-bold">Official Early Access Giveaway:</span> Registration closes on <span className="underline font-bold">November 20, 2026</span> &bull; Official Launch on <span className="underline font-bold">November 30, 2026</span>
+    <div className="min-h-screen bg-maternal-mesh text-[#2C2422] overflow-x-hidden selection:bg-[#E8F5E9] selection:text-[#1B4332]">
+      {/* Top Warm Announcement Bar */}
+      <div className="bg-[#1B4332] text-white py-2.5 px-4 text-center text-xs sm:text-sm font-medium tracking-wide shadow-sm">
+        <span className="inline-flex items-center gap-1.5 font-bold text-[#A7E9AF]">
+          <Sparkles className="w-3.5 h-3.5" />
+          BabyBites VIP Early Access:
+        </span>{' '}
+        Registration closes on <span className="underline font-bold text-white">November 20, 2026</span> &bull; Official Launch on <span className="underline font-bold text-white">November 30, 2026</span>
       </div>
 
       {/* Hero Section */}
       <section className="relative pt-8 sm:pt-14 pb-16 sm:pb-24 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
           
-          {/* Header Typography */}
-          <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E5F4EC] border border-[#C7E4D6] text-[#1B4332] text-xs font-bold uppercase tracking-wider mb-5 shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-[#2D6A4F] animate-ping" />
+          {/* Header Typography with Times New Roman & Maternal Elegance */}
+          <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#FFFFFF]/90 backdrop-blur-sm border border-[#E3D8CC] text-[#1B4332] text-xs sm:text-sm font-bold uppercase tracking-wider mb-5 shadow-sm">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#2D6A4F] animate-pulse" />
               <span>12 Lucky Moms &bull; 7 Days Free VIP Access</span>
             </div>
 
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-bold text-[#24211D] tracking-tight leading-[1.18] mb-5">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-serif font-bold text-[#1F1B1A] tracking-tight leading-[1.15] mb-5">
               Be One of Our <br className="hidden sm:inline" />
-              <span className="text-[#2D6A4F] italic">
+              <span className="text-[#2D6A4F] italic underline decoration-[#C7E4D6] decoration-wavy decoration-1">
                 12 Early Access Moms!
               </span>
             </h1>
 
-            <p className="text-base sm:text-xl text-[#5D554E] leading-relaxed max-w-2xl mx-auto font-normal">
-              We’re giving 12 lucky moms the opportunity to experience <strong className="text-[#24211D] font-bold">BabyBites for 7 days, completely free</strong>, before our official launch on November 30.
+            <p className="text-base sm:text-xl text-[#5C524C] leading-relaxed max-w-2xl mx-auto font-normal">
+              We’re giving 12 lucky moms the opportunity to experience <strong className="text-[#1F1B1A] font-bold">BabyBites for 7 days, completely free</strong>, before our official launch on November 30.
             </p>
           </div>
 
           {/* 3 Core Highlights (Mobile friendly cards) */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4 max-w-4xl mx-auto mb-8 sm:mb-12">
-            <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-white border border-[#EFE9DF] shadow-clean">
-              <div className="w-11 h-11 rounded-2xl bg-[#E5F4EC] text-[#1B4332] flex items-center justify-center shrink-0 font-serif font-bold text-lg">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4 max-w-4xl mx-auto mb-10 sm:mb-14">
+            <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/95 border border-[#EAE1D6] shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-2xl bg-[#E8F5E9] text-[#1B4332] flex items-center justify-center shrink-0 font-serif font-bold text-xl border border-[#C7E4D6]">
                 12
               </div>
               <div>
-                <h4 className="text-sm font-bold text-[#24211D]">12 Lucky Moms</h4>
-                <p className="text-xs text-[#7A7067]">Selected via external random draw</p>
+                <h4 className="text-sm font-bold text-[#1F1B1A] font-serif">12 Lucky Moms</h4>
+                <p className="text-xs text-[#756A63]">Selected via external random draw</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-white border border-[#EFE9DF] shadow-clean">
-              <div className="w-11 h-11 rounded-2xl bg-[#FFF3F0] text-[#E76F51] flex items-center justify-center shrink-0 font-serif font-bold text-lg">
+            <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/95 border border-[#EAE1D6] shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-2xl bg-[#FFF1EB] text-[#E76F51] flex items-center justify-center shrink-0 font-serif font-bold text-xl border border-[#FCD8C5]">
                 7
               </div>
               <div>
-                <h4 className="text-sm font-bold text-[#24211D]">7 Days Free Access</h4>
-                <p className="text-xs text-[#7A7067]">Full VIP access, no card needed</p>
+                <h4 className="text-sm font-bold text-[#1F1B1A] font-serif">7 Days Free Access</h4>
+                <p className="text-xs text-[#756A63]">Full VIP access, no card needed</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-white border border-[#EFE9DF] shadow-clean">
-              <div className="w-11 h-11 rounded-2xl bg-[#F0F7FF] text-[#2563EB] flex items-center justify-center shrink-0">
+            <div className="flex items-center gap-4 p-4 rounded-2xl bg-white/95 border border-[#EAE1D6] shadow-sm hover:shadow-md transition-shadow">
+              <div className="w-12 h-12 rounded-2xl bg-[#EEF5FF] text-[#2563EB] flex items-center justify-center shrink-0 border border-[#D0E2FF]">
                 <Sparkles className="w-5 h-5" />
               </div>
               <div>
-                <h4 className="text-sm font-bold text-[#24211D]">Exclusive Early Access</h4>
-                <p className="text-xs text-[#7A7067]">Test before our official launch</p>
+                <h4 className="text-sm font-bold text-[#1F1B1A] font-serif">Exclusive Early Access</h4>
+                <p className="text-xs text-[#756A63]">Test before our official launch</p>
               </div>
             </div>
           </div>
 
           {/* Countdown & Dates Box */}
-          <div className="max-w-xl mx-auto mb-10 sm:mb-14 p-5 sm:p-7 rounded-3xl bg-white border border-[#EFE9DF] shadow-clean text-center">
+          <div className="max-w-xl mx-auto mb-12 sm:mb-16 p-6 sm:p-8 rounded-3xl bg-white/95 backdrop-blur-sm border border-[#EAE1D6] shadow-md text-center">
             <CountdownTimer targetDate="2026-11-20T23:59:59Z" />
 
-            <div className="mt-5 pt-4 border-t border-[#F2ECE3] grid grid-cols-2 gap-3 text-xs">
+            <div className="mt-5 pt-4 border-t border-[#F2ECE3] grid grid-cols-2 gap-4 text-xs font-serif">
               <div>
-                <span className="text-[#8A8077] block font-medium">Registration Closes</span>
-                <span className="font-bold text-[#24211D] text-sm">November 20, 2026</span>
+                <span className="text-[#8A8077] block font-sans uppercase tracking-wider text-[10px]">Registration Closes</span>
+                <span className="font-bold text-[#1F1B1A] text-sm">November 20, 2026</span>
               </div>
               <div className="border-l border-[#F2ECE3]">
-                <span className="text-[#8A8077] block font-medium">Official Launch Date</span>
+                <span className="text-[#8A8077] block font-sans uppercase tracking-wider text-[10px]">Official Launch Date</span>
                 <span className="font-bold text-[#2D6A4F] text-sm">November 30, 2026</span>
               </div>
             </div>
@@ -134,7 +138,7 @@ export const LandingPage: React.FC = () => {
           {/* TWO-COLUMN LAYOUT: Interactive App Carousel & Registration Form */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 items-start">
             
-            {/* Left: Real App Screens Carousel (Replaced the baby image) */}
+            {/* Left: Real App Screens Carousel (Phone mockup with lateral arrows) */}
             <div className="lg:col-span-5 order-2 lg:order-1">
               <AppScreensCarousel />
             </div>

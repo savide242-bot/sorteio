@@ -102,20 +102,23 @@ export const RegistrationForm: React.FC = () => {
   return (
     <div
       id="register-section"
-      className="w-full bg-[#FFFFFF] rounded-3xl p-6 sm:p-9 border border-[#EFE9DF] shadow-app"
+      className="w-full bg-[#FFFFFF] rounded-[28px] p-6 sm:p-9 border-2 border-[#E8DFD3] shadow-[0_20px_50px_rgba(45,106,79,0.08)] relative overflow-hidden"
     >
+      {/* Soft gradient banner decoration */}
+      <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#E76F51] via-[#F4A261] to-[#2D6A4F]" />
+
       {/* Decorative Header */}
-      <div className="text-center mb-6 sm:mb-8">
-        <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-[#1B4332] bg-[#E5F4EC] border border-[#C7E4D6] mb-3">
+      <div className="text-center mb-6 sm:mb-8 pt-2">
+        <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-[#1B4332] bg-[#E8F5E9] border border-[#C7E4D6] mb-3 shadow-sm">
           <Sparkles className="w-4 h-4 text-[#2D6A4F]" />
           <span>7 Days Free VIP Access Giveaway</span>
         </span>
 
-        <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#24211D] tracking-tight">
-          Claim Your Unique Lucky Number
+        <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#1F1B1A] tracking-tight">
+          Claim Your Unique Lucky Number 💗
         </h3>
 
-        <p className="text-xs sm:text-sm text-[#5D554E] mt-2 max-w-md mx-auto leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#5C524C] mt-2 max-w-md mx-auto leading-relaxed">
           12 lucky moms will win complimentary 7-day VIP access to all 300+ recipes, weekly planners, and allergy tracking before our launch on November 30!
         </p>
       </div>

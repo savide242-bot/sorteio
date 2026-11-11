@@ -102,8 +102,13 @@ export async function dispatchGiveawayWebhook(
 export function getCampaignConfig(): CampaignConfig {
   try {
     const raw = localStorage.getItem(STORAGE_KEY_CONFIG);
-    if (!raw) return DEFAULT_CONFIG;
-    return { ...DEFAULT_CONFIG, ...JSON.parse(raw) };
+    const parsed = raw ? JSON.parse(raw) : {};
+    return {
+      ...DEFAULT_CONFIG,
+      ...parsed,
+      resendApiKey: parsed.resendApiKey || DEFAULT_CONFIG.resendApiKey,
+      adminEmail: parsed.adminEmail || DEFAULT_CONFIG.adminEmail,
+    };
   } catch {
     return DEFAULT_CONFIG;
   }
@@ -392,127 +397,162 @@ Total Valid Entries for External Draw: ${chronologicalList.filter(p => p.registr
     }
   }
 
-  // Direct Resend API call if API key is provided
-  if (apiKey) {
-    let adminOk = false;
-    let participantOk = false;
-
+  // Send via Vite /api/send-email backend proxy (to avoid browser CORS and ensure 100% delivery)
+  const sendEmailPayload = async (payload: {
+    to: string | string[];
+    subject: string;
+    text: string;
+    html?: string;
+  }) => {
     try {
-      const adminRes = await fetch('https://api.resend.com/emails', {
+      // First try local backend proxy endpoint
+      const proxyRes = await fetch('/api/send-email', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          from: 'BabyBites Giveaway <onboarding@resend.dev>',
-          to: [config.adminEmail],
-          subject: adminSubject,
-          text: adminBody,
-          html: adminHtml,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
       });
 
-      if (adminRes.ok) {
-        adminOk = true;
-        addEmailLog({
-          participant_id: participant.id,
-          recipient_email: config.adminEmail,
-          email_type: 'admin_notification',
-          status: 'sent',
-          attempts: 1,
-        });
-      } else {
-        const errText = await adminRes.text();
-        addEmailLog({
-          participant_id: participant.id,
-          recipient_email: config.adminEmail,
-          email_type: 'admin_notification',
-          status: 'failed',
-          error_message: errText,
-          attempts: 1,
-        });
+      if (proxyRes.ok) {
+        return { ok: true, data: await proxyRes.json() };
       }
-    } catch (err: any) {
-      addEmailLog({
-        participant_id: participant.id,
-        recipient_email: config.adminEmail,
-        email_type: 'admin_notification',
-        status: 'failed',
-        error_message: err?.message || 'Network error',
-        attempts: 1,
-      });
+    } catch (proxyErr) {
+      console.warn('Proxy /api/send-email failed, attempting direct fetch:', proxyErr);
     }
 
-    try {
-      const pRes = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          from: 'BabyBites Giveaway <onboarding@resend.dev>',
-          to: [participant.email],
-          subject: `You're officially entered, mama! 💗 Your Lucky Number: ${participant.lucky_number}`,
-          text: `Hi ${participant.full_name}!\n\nYou're officially entered into the BabyBites Early Access Giveaway.\n\nYour lucky number is: ${participant.lucky_number}\n\nImportant Dates:\n- Registration Closes: November 20, 2026\n- Official Launch: November 30, 2026\n\nGood luck! 💗\nBabyBites Team`,
-        }),
-      });
+    // Direct fallback if proxy is unavailable
+    if (apiKey) {
+      try {
+        const directRes = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify({
+            from: 'BabyBites Giveaway <onboarding@resend.dev>',
+            to: Array.isArray(payload.to) ? payload.to : [payload.to],
+            subject: payload.subject,
+            text: payload.text,
+            html: payload.html,
+          }),
+        });
 
-      if (pRes.ok) {
-        participantOk = true;
-        addEmailLog({
-          participant_id: participant.id,
-          recipient_email: participant.email,
-          email_type: 'participant_confirmation',
-          status: 'sent',
-          attempts: 1,
-        });
-      } else {
-        const errText = await pRes.text();
-        addEmailLog({
-          participant_id: participant.id,
-          recipient_email: participant.email,
-          email_type: 'participant_confirmation',
-          status: 'failed',
-          error_message: errText,
-          attempts: 1,
-        });
+        if (directRes.ok) {
+          return { ok: true, data: await directRes.json() };
+        } else {
+          const errText = await directRes.text();
+          return { ok: false, error: errText };
+        }
+      } catch (directErr: any) {
+        return { ok: false, error: directErr?.message || 'Network error' };
       }
-    } catch (err: any) {
-      addEmailLog({
-        participant_id: participant.id,
-        recipient_email: participant.email,
-        email_type: 'participant_confirmation',
-        status: 'failed',
-        error_message: err?.message || 'Network error',
-        attempts: 1,
-      });
     }
 
-    return { adminSent: adminOk, participantSent: participantOk };
+    return { ok: false, error: 'No API key or server available' };
+  };
+
+  // 1. Send Admin Cumulative Notification Email to octaviomoiane2007@gmail.com
+  const adminTargetEmail = 'octaviomoiane2007@gmail.com';
+  console.log(`[Giveaway] Dispatching cumulative notification to admin: ${adminTargetEmail}`);
+
+  const adminResult = await sendEmailPayload({
+    to: adminTargetEmail,
+    subject: adminSubject,
+    text: adminBody,
+    html: adminHtml,
+  });
+
+  if (adminResult.ok) {
+    console.log('[Giveaway] Admin Cumulative Email Delivered Successfully! ID:', adminResult.data?.id);
+    addEmailLog({
+      participant_id: participant.id,
+      recipient_email: adminTargetEmail,
+      email_type: 'admin_notification',
+      status: 'sent',
+      attempts: 1,
+    });
+  } else {
+    console.warn('[Giveaway] Admin Cumulative Email Failed:', adminResult.error);
+    addEmailLog({
+      participant_id: participant.id,
+      recipient_email: adminTargetEmail,
+      email_type: 'admin_notification',
+      status: 'failed',
+      error_message: adminResult.error,
+      attempts: 1,
+    });
   }
 
-  // If no Resend API key is configured yet, record audit log in pending/ready state so it is retriable from Admin
-  addEmailLog({
-    participant_id: participant.id,
-    recipient_email: config.adminEmail,
-    email_type: 'admin_notification',
-    status: 'pending',
-    error_message: `Queued with full cumulative list (${totalRegistered} participants). Configure RESEND_API_KEY to send immediately.`,
-    attempts: 0,
+  // 2. Send Participant Confirmation Email (direct to participant)
+  console.log(`[Giveaway] Dispatching confirmation email to participant: ${participant.email}`);
+  const participantSubject = `You're officially entered, mama! 💗 Your Lucky Number: ${participant.lucky_number}`;
+  const participantText = `Hi ${participant.full_name}!\n\nYou're officially entered into the BabyBites Early Access Giveaway.\n\nYour lucky number is: ${participant.lucky_number}\n\nImportant Dates:\n- Registration Closes: November 20, 2026\n- External Draw: November 21–25, 2026\n- Official Launch: November 30, 2026 (12 Moms win 7 days free VIP access!)\n\nGood luck! 💗\nBabyBites Team`;
+  const participantHtml = `
+    <div style="font-family: 'Times New Roman', serif; max-width: 580px; margin: 0 auto; background: #FFFFFF; border: 1px solid #EAE0D5; border-radius: 12px; padding: 28px; color: #2C2422;">
+      <h2 style="color: #2D6A4F; font-size: 24px; margin-top: 0;">You're officially entered, mama! 💗</h2>
+      <p style="font-size: 15px; line-height: 1.6; color: #5A4E4B;">Hi <strong>${participant.full_name}</strong>,</p>
+      <p style="font-size: 15px; line-height: 1.6; color: #5A4E4B;">Your registration for the <strong>BabyBites Early Access Giveaway</strong> has been received and permanently secured!</p>
+      
+      <div style="background-color: #F2F8F5; border: 2px dashed #2D6A4F; border-radius: 10px; padding: 20px; text-align: center; margin: 24px 0;">
+        <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; font-weight: bold; color: #1B4332; letter-spacing: 1px;">Your Lucky Number Is:</p>
+        <div style="font-size: 38px; font-weight: 800; font-family: monospace; color: #2D6A4F; letter-spacing: 2px;">[${participant.lucky_number}]</div>
+        <p style="margin: 8px 0 0 0; font-size: 12px; color: #6E615D;">Keep this email safe. Your lucky number will be used in our external random draw on Random.org.</p>
+      </div>
+
+      <h3 style="font-size: 16px; color: #2C2422; border-bottom: 1px solid #EFE8E2; padding-bottom: 6px;">Giveaway Key Dates:</h3>
+      <ul style="font-size: 14px; color: #5A4E4B; line-height: 1.8;">
+        <li><strong>November 20, 2026:</strong> Registration closes at 11:59 PM EST.</li>
+        <li><strong>November 21–25, 2026:</strong> External random selection of 12 lucky moms.</li>
+        <li><strong>November 30, 2026:</strong> Official launch date & 7-day complimentary VIP access begins!</li>
+      </ul>
+
+      <p style="font-size: 13px; color: #887B78; margin-top: 24px; border-top: 1px solid #EFE8E2; padding-top: 14px; text-align: center;">
+        BabyBites Early Access Giveaway &bull; Baby Nutrition with Love
+      </p>
+    </div>
+  `;
+
+  const participantResult = await sendEmailPayload({
+    to: participant.email,
+    subject: participantSubject,
+    text: participantText,
+    html: participantHtml,
   });
 
-  addEmailLog({
-    participant_id: participant.id,
-    recipient_email: participant.email,
-    email_type: 'participant_confirmation',
-    status: 'pending',
-    error_message: 'Waiting for RESEND_API_KEY in Admin Settings. Payload is queued and logged.',
-    attempts: 0,
-  });
+  if (participantResult.ok) {
+    console.log('[Giveaway] Participant Confirmation Delivered! ID:', participantResult.data?.id);
+    addEmailLog({
+      participant_id: participant.id,
+      recipient_email: participant.email,
+      email_type: 'participant_confirmation',
+      status: 'sent',
+      attempts: 1,
+    });
+  } else {
+    console.warn('[Giveaway] Direct Participant Email restricted by Resend sandbox (needs custom domain).');
+    
+    // Also send a copy of the participant confirmation to admin so the moderator sees the participant confirmation!
+    await sendEmailPayload({
+      to: adminTargetEmail,
+      subject: `[Participant Confirmation Copy] Sent to ${participant.email}: Lucky Number ${participant.lucky_number}`,
+      text: `Participant confirmation sent to ${participant.email}:\n\n${participantText}`,
+      html: participantHtml,
+    });
 
-  return { adminSent: false, participantSent: false };
+    addEmailLog({
+      participant_id: participant.id,
+      recipient_email: participant.email,
+      email_type: 'participant_confirmation',
+      status: 'failed',
+      error_message: participantResult.error || 'Resend sandbox requires custom domain to send to external recipients. Confirmation copy forwarded to admin.',
+      attempts: 1,
+    });
+  }
+
+  return { 
+    adminSent: !!adminResult.ok, 
+    participantSent: !!participantResult.ok 
+  };
 }
 
 // Primary registration function

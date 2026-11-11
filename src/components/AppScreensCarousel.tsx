@@ -67,13 +67,13 @@ export const AppScreensCarousel: React.FC = () => {
   const current = SLIDES[currentIndex];
 
   return (
-    <div className="w-full bg-[#FFFFFF] rounded-3xl p-5 sm:p-7 border border-[#EFE9DF] shadow-app">
+    <div className="w-full bg-[#FFFFFF] rounded-[28px] p-5 sm:p-7 border-2 border-[#E8DFD3] shadow-[0_20px_50px_rgba(45,106,79,0.08)]">
       {/* Top Header Pill */}
       <div className="flex items-center justify-between gap-2 mb-4 pb-3 border-b border-[#F4EFEA]">
         <div className="flex items-center gap-2">
           <span className="w-2.5 h-2.5 rounded-full bg-[#2D6A4F] animate-pulse" />
-          <span className="text-xs font-bold uppercase tracking-wider text-[#2D6A4F] font-sans">
-            Inside The BabyBites App
+          <span className="text-xs font-bold uppercase tracking-wider text-[#1B4332] font-sans">
+            Inside The BabyBites App (Preview)
           </span>
         </div>
         <span className="text-xs font-bold text-[#8A8077] font-sans">
@@ -84,7 +84,7 @@ export const AppScreensCarousel: React.FC = () => {
       {/* Main Carousel Display with Left / Right Floating Arrow Buttons */}
       <div className="relative group max-w-sm mx-auto mb-5">
         {/* Device Container Frame */}
-        <div className="relative rounded-[28px] overflow-hidden border-[6px] border-[#24211D] bg-[#24211D] shadow-2xl aspect-[9/18] max-h-[460px] mx-auto flex items-center justify-center">
+        <div className="relative rounded-[32px] overflow-hidden border-[7px] border-[#24211D] bg-[#24211D] shadow-2xl aspect-[9/18] max-h-[470px] mx-auto flex items-center justify-center">
           <img
             src={current.image}
             alt={current.headline}
@@ -96,7 +96,7 @@ export const AppScreensCarousel: React.FC = () => {
             type="button"
             onClick={prevSlide}
             aria-label="Previous Feature Slide"
-            className="absolute left-2.5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#24211D]/80 hover:bg-[#2D6A4F] text-white flex items-center justify-center shadow-lg backdrop-blur-sm transition-all transform hover:scale-110 active:scale-95"
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-[#1B4332]/90 hover:bg-[#2D6A4F] text-white flex items-center justify-center shadow-xl backdrop-blur-md transition-all transform hover:scale-110 active:scale-95 border border-white/20"
           >
             <ChevronLeft className="w-6 h-6 -ml-0.5" />
           </button>
@@ -105,7 +105,7 @@ export const AppScreensCarousel: React.FC = () => {
             type="button"
             onClick={nextSlide}
             aria-label="Next Feature Slide"
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-[#24211D]/80 hover:bg-[#2D6A4F] text-white flex items-center justify-center shadow-lg backdrop-blur-sm transition-all transform hover:scale-110 active:scale-95"
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-[#1B4332]/90 hover:bg-[#2D6A4F] text-white flex items-center justify-center shadow-xl backdrop-blur-md transition-all transform hover:scale-110 active:scale-95 border border-white/20"
           >
             <ChevronRight className="w-6 h-6 -mr-0.5" />
           </button>
