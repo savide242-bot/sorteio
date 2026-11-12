@@ -140,35 +140,35 @@ export const RegistrationForm: React.FC = () => {
   return (
     <div
       id="register-section"
-      className="w-full bg-[#FFFFFF] rounded-[28px] p-6 sm:p-9 border-2 border-[#E8DFD3] shadow-[0_20px_50px_rgba(45,106,79,0.08)] relative overflow-hidden"
+      className="w-full bg-white rounded-3xl p-5 sm:p-7 border border-[#E7DFD5] shadow-[0_16px_45px_rgba(27,67,50,0.06)] relative overflow-hidden"
     >
-      {/* Soft gradient banner decoration */}
-      <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-[#E76F51] via-[#F4A261] to-[#2D6A4F]" />
+      {/* Decorative gradient top ribbon */}
+      <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#2D6A4F] via-[#F4A261] to-[#E76F51]" />
 
-      {/* Decorative Header */}
-      <div className="text-center mb-6 sm:mb-8 pt-2">
-        <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider text-[#1B4332] bg-[#E8F5E9] border border-[#C7E4D6] mb-3 shadow-sm">
-          <Sparkles className="w-4 h-4 text-[#2D6A4F]" />
+      {/* Header */}
+      <div className="text-center mb-5 pt-1">
+        <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#1B4332] bg-[#EBF7EE] border border-[#BDE0CE] mb-2 shadow-xs">
+          <Sparkles className="w-3.5 h-3.5 text-[#2D6A4F]" />
           <span>7 Days Free VIP Access Giveaway</span>
         </span>
 
-        <h3 className="text-2xl sm:text-3xl font-serif font-bold text-[#1F1B1A] tracking-tight">
+        <h3 className="text-xl sm:text-2xl font-serif font-bold text-[#1F1B18] tracking-tight">
           Claim Your Unique Lucky Number 💗
         </h3>
 
-        <p className="text-xs sm:text-sm text-[#5C524C] mt-2 max-w-md mx-auto leading-relaxed">
-          12 lucky moms will win complimentary 7-day VIP access to all 300+ recipes, weekly planners, and allergy tracking starting November 20! Winners announced November 21.
+        <p className="text-xs text-[#6B5E55] mt-1 max-w-sm mx-auto leading-relaxed">
+          12 lucky moms will win 7 days of full VIP access. Closes <strong>Nov 20</strong> • Announced <strong>Nov 21</strong>.
         </p>
       </div>
 
       {errorMessage && (
-        <div className="mb-5 p-4 rounded-2xl bg-[#FFF3F0] border border-[#FCD8C5] text-[#D55C3D] text-xs sm:text-sm flex items-start gap-3">
-          <AlertCircle className="w-5 h-5 text-[#E76F51] shrink-0 mt-0.5" />
+        <div className="mb-4 p-3 rounded-xl bg-[#FFF3F0] border border-[#FCD8C5] text-[#D55C3D] text-xs flex items-start gap-2.5">
+          <AlertCircle className="w-4 h-4 text-[#E76F51] shrink-0 mt-0.5" />
           <div className="font-medium leading-relaxed">{errorMessage}</div>
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5" noValidate>
+      <form onSubmit={handleSubmit} className="space-y-3.5" noValidate>
         {/* Anti-spam Honeypot */}
         <div className="hidden" aria-hidden="true">
           <input
@@ -181,107 +181,109 @@ export const RegistrationForm: React.FC = () => {
           />
         </div>
 
-        {/* Full Name */}
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-[#474039] mb-1.5">
-            Full Name <span className="text-[#E76F51]">*</span>
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8A8077]">
-              <User className="w-4 h-4" />
+        {/* ROW 1: Full Name & Email Address (Organized 2-Column Grid) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+          {/* Full Name */}
+          <div>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#3D352E] mb-1">
+              Full Name <span className="text-[#D94E34]">*</span>
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8C7E72]">
+                <User className="w-4 h-4" />
+              </div>
+              <input
+                type="text"
+                name="fullName"
+                required
+                placeholder="e.g. Sarah Johnson"
+                value={formData.fullName}
+                onChange={handleChange}
+                className="w-full h-11 pl-9 pr-3 rounded-xl bg-white border border-[#DCD3C7] text-[#1F1B18] text-xs sm:text-sm focus:outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/15 transition-all placeholder:text-[#A89E94]"
+              />
             </div>
-            <input
-              type="text"
-              name="fullName"
-              required
-              placeholder="e.g. Sarah Johnson"
-              value={formData.fullName}
-              onChange={handleChange}
-              className="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E2D9CE] text-[#24211D] text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:bg-white transition-all placeholder:text-[#9A9086]"
-            />
+          </div>
+
+          {/* Email Address */}
+          <div>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#3D352E] mb-1">
+              Email Address <span className="text-[#D94E34]">*</span>
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8C7E72]">
+                <Mail className="w-4 h-4" />
+              </div>
+              <input
+                type="email"
+                name="email"
+                required
+                placeholder="sarah@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full h-11 pl-9 pr-3 rounded-xl bg-white border border-[#DCD3C7] text-[#1F1B18] text-xs sm:text-sm focus:outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/15 transition-all placeholder:text-[#A89E94]"
+              />
+            </div>
           </div>
         </div>
 
-        {/* Email Address */}
+        {/* ROW 2: WhatsApp / Phone Number with Searchable Country Dropdown */}
         <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-[#474039] mb-1.5">
-            Email Address <span className="text-[#E76F51]">*</span>
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8A8077]">
-              <Mail className="w-4 h-4" />
-            </div>
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder="sarah@example.com"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E2D9CE] text-[#24211D] text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:bg-white transition-all placeholder:text-[#9A9086]"
-            />
+          <div className="flex items-center justify-between mb-1">
+            <label className="text-[11px] font-bold uppercase tracking-wider text-[#3D352E]">
+              WhatsApp / Phone Number <span className="text-[#D94E34]">*</span>
+            </label>
+            <span className="text-[10px] text-[#8C7E72] font-medium hidden sm:inline">
+              Select dial code &amp; enter number
+            </span>
           </div>
-          <p className="text-[11px] text-[#7A7067] mt-1 pl-1">
-            Your permanent lucky number (e.g. BB0001) will be delivered here instantly.
-          </p>
-        </div>
-
-        {/* Phone Number with Searchable Country Dial Code Dropdown */}
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-[#474039] mb-1.5">
-            WhatsApp / Phone Number <span className="text-[#E76F51]">*</span>
-          </label>
 
           <div className="relative" ref={dropdownRef}>
-            <div className="flex rounded-2xl bg-[#FAF8F5] border border-[#E2D9CE] focus-within:ring-2 focus-within:ring-[#2D6A4F] focus-within:bg-white focus-within:border-transparent transition-all overflow-hidden shadow-sm">
-              
+            <div className="flex h-11 rounded-xl bg-white border border-[#DCD3C7] focus-within:border-[#2D6A4F] focus-within:ring-2 focus-within:ring-[#2D6A4F]/15 transition-all overflow-hidden shadow-xs">
               {/* Country Code Trigger Button */}
               <button
                 type="button"
                 onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
-                className="flex items-center gap-1.5 px-3.5 py-3.5 bg-[#FAF8F5] hover:bg-[#F2ECE3] text-[#24211D] text-xs sm:text-sm font-semibold border-r border-[#E2D9CE] transition-colors shrink-0"
-                title="Click to search and select your country code"
+                className="flex items-center gap-1.5 px-3 h-full bg-[#FAF7F2] hover:bg-[#F2ECE3] text-[#1F1B18] text-xs font-semibold border-r border-[#DCD3C7] transition-colors shrink-0 cursor-pointer"
+                title="Click to search country dial code"
               >
                 {selectedCountry ? (
                   <span className="flex items-center gap-1.5">
                     <span className="text-base leading-none">{selectedCountry.flag}</span>
-                    <span className="font-mono text-xs sm:text-sm font-bold text-[#1B4332]">{selectedCountry.code}</span>
+                    <span className="font-mono text-xs font-bold text-[#1B4332]">{selectedCountry.code}</span>
                   </span>
                 ) : (
                   <span className="flex items-center gap-1.5 text-xs text-[#7A7067]">
-                    <span>🌍</span>
+                    <span className="text-sm">🌐</span>
                     <span className="font-medium">Country Code</span>
                   </span>
                 )}
-                <ChevronDown className={`w-3.5 h-3.5 text-[#8A8077] transition-transform ${isCountryDropdownOpen ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-3.5 h-3.5 text-[#8C7E72] transition-transform ${isCountryDropdownOpen ? 'rotate-180' : ''}`} />
               </button>
 
               {/* Local Phone Number Input */}
-              <div className="relative flex-1">
-                <input
-                  type="tel"
-                  required
-                  placeholder={selectedCountry ? `${selectedCountry.code} Phone / WhatsApp number` : "Select country code then enter number"}
-                  value={localPhoneNumber}
-                  onChange={(e) => setLocalPhoneNumber(e.target.value)}
-                  className="w-full px-3.5 sm:px-4 py-3.5 bg-transparent text-[#24211D] text-sm focus:outline-none placeholder:text-[#9A9086]"
-                />
-              </div>
+              <input
+                type="tel"
+                required
+                placeholder={selectedCountry ? `${selectedCountry.code} Phone number` : "Select country code then enter number"}
+                value={localPhoneNumber}
+                onChange={(e) => setLocalPhoneNumber(e.target.value)}
+                className="flex-1 h-full px-3.5 bg-transparent text-[#1F1B18] text-xs sm:text-sm focus:outline-none placeholder:text-[#A89E94]"
+              />
             </div>
 
             {/* Searchable Country Dropdown Popover */}
             {isCountryDropdownOpen && (
-              <div className="absolute left-0 right-0 top-full mt-1.5 z-50 bg-white rounded-2xl border-2 border-[#E2D9CE] shadow-2xl p-2.5 max-h-72 flex flex-col animate-in fade-in zoom-in-95 duration-150">
+              <div className="absolute left-0 right-0 top-full mt-1.5 z-50 bg-white rounded-xl border border-[#DCD3C7] shadow-xl p-2 max-h-64 flex flex-col animate-in fade-in zoom-in-95 duration-150">
                 {/* Search Filter Bar */}
-                <div className="relative mb-2 shrink-0">
-                  <Search className="w-4 h-4 text-[#8A8077] absolute left-3 top-1/2 -translate-y-1/2" />
+                <div className="relative mb-1.5 shrink-0">
+                  <Search className="w-3.5 h-3.5 text-[#8C7E72] absolute left-2.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
                     autoFocus
-                    placeholder="Search country or code (e.g. Mozambique, Brazil, Portugal, US, +351)..."
+                    placeholder="Search country or code (Mozambique, Brazil, Portugal, US, +258)..."
                     value={countrySearch}
                     onChange={(e) => setCountrySearch(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-[#FAF8F5] border border-[#E2D9CE] focus:outline-none focus:ring-1 focus:ring-[#2D6A4F] text-[#24211D]"
+                    className="w-full pl-8 pr-2.5 py-1.5 text-xs rounded-lg bg-[#FAF8F5] border border-[#DCD3C7] focus:outline-none focus:ring-1 focus:ring-[#2D6A4F] text-[#1F1B18]"
                   />
                 </div>
 
@@ -300,10 +302,10 @@ export const RegistrationForm: React.FC = () => {
                           setIsCountryDropdownOpen(false);
                           setCountrySearch('');
                         }}
-                        className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs text-left transition-colors ${
+                        className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs text-left transition-colors cursor-pointer ${
                           selectedCountry?.iso === c.iso
-                            ? 'bg-[#E8F5E9] text-[#1B4332] font-bold'
-                            : 'hover:bg-[#FAF8F5] text-[#24211D]'
+                            ? 'bg-[#EBF7EE] text-[#1B4332] font-bold'
+                            : 'hover:bg-[#FAF8F5] text-[#1F1B18]'
                         }`}
                       >
                         <span className="flex items-center gap-2 truncate">
@@ -316,7 +318,7 @@ export const RegistrationForm: React.FC = () => {
                       </button>
                     ))
                   ) : (
-                    <div className="py-4 text-center text-xs text-[#8A8077]">
+                    <div className="py-3 text-center text-xs text-[#8C7E72]">
                       No countries found matching "{countrySearch}"
                     </div>
                   )}
@@ -325,151 +327,156 @@ export const RegistrationForm: React.FC = () => {
             )}
           </div>
 
-          {/* VIP Community Notice in Natural American English */}
-          <div className="mt-2.5 p-3.5 rounded-2xl bg-[#FFF8F5] border border-[#FCD8C5] text-[#8C2C13] text-xs flex items-start gap-2.5 shadow-sm">
-            <ShieldAlert className="w-4 h-4 text-[#E76F51] shrink-0 mt-0.5" />
-            <div className="leading-relaxed">
-              <span className="font-bold text-[#8C2C13] block mb-0.5">
-                ⚠️ Mandatory Notice — VIP Group Verification
-              </span>
-              Your WhatsApp / phone number is required. Our team will verify each number against our official <strong>VIP Mom Community</strong>. All participants who are not in the VIP group will be automatically disqualified from the giveaway.
-            </div>
+          {/* Compact VIP Verification Notice (Clean Amber Pill) */}
+          <div className="mt-2 px-3 py-2 rounded-xl bg-[#FFFBF0] border border-[#FDE68A] flex items-center gap-2 text-xs text-[#92400E]">
+            <ShieldAlert className="w-4 h-4 text-[#D97706] shrink-0" />
+            <p className="text-[11px] leading-snug">
+              <strong className="text-[#78350F]">VIP Verification Required:</strong> Phone numbers are cross-checked with our official VIP Mom Community. Non-VIP members are disqualified.
+            </p>
           </div>
         </div>
 
-        {/* Baby's Age */}
-        <div>
-          <label className="block text-xs font-bold uppercase tracking-wider text-[#474039] mb-1.5">
-            Baby’s Age Stage <span className="text-[#E76F51]">*</span>
-          </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8A8077]">
-              <Baby className="w-4 h-4" />
-            </div>
-            <select
-              name="babyAge"
-              required
-              value={formData.babyAge}
-              onChange={handleChange}
-              className="w-full pl-10 pr-4 py-3.5 rounded-2xl bg-[#FAF8F5] border border-[#E2D9CE] text-[#24211D] text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:bg-white transition-all cursor-pointer"
-            >
-              <option value="">Select your baby's stage...</option>
-              {BABY_AGE_OPTIONS.map((opt) => (
-                <option key={opt} value={opt}>
-                  {opt}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-
-        {/* Country & Feeding Challenge */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* ROW 3: Baby's Age Stage & Country (2-Column Grid) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
+          {/* Baby's Age Stage (Mandatory - 4 exact age brackets) */}
           <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#474039] mb-1.5">
-              Country <span className="text-[#9A9086] font-normal">(Optional)</span>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#3D352E] mb-1">
+              Baby’s Age Stage <span className="text-[#D94E34]">*</span>
             </label>
             <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8A8077]">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8C7E72]">
+                <Baby className="w-4 h-4" />
+              </div>
+              <select
+                name="babyAge"
+                required
+                value={formData.babyAge}
+                onChange={handleChange}
+                className="w-full h-11 pl-9 pr-8 rounded-xl bg-white border border-[#DCD3C7] text-[#1F1B18] text-xs sm:text-sm focus:outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/15 transition-all cursor-pointer appearance-none"
+              >
+                <option value="">Select baby's age...</option>
+                {BABY_AGE_OPTIONS.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
+                ))}
+              </select>
+              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#8C7E72]">
+                <ChevronDown className="w-3.5 h-3.5" />
+              </div>
+            </div>
+          </div>
+
+          {/* Country (Optional) */}
+          <div>
+            <label className="block text-[11px] font-bold uppercase tracking-wider text-[#3D352E] mb-1">
+              Country <span className="text-[#8C7E72] font-normal normal-case">(Optional)</span>
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8C7E72]">
                 <Globe className="w-4 h-4" />
               </div>
               <input
                 type="text"
                 name="country"
-                placeholder="e.g. United States, UK"
+                placeholder="e.g. Mozambique, Brazil, US"
                 value={formData.country}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-[#FAF8F5] border border-[#E2D9CE] text-[#24211D] text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:bg-white transition-all placeholder:text-[#9A9086]"
+                className="w-full h-11 pl-9 pr-3 rounded-xl bg-white border border-[#DCD3C7] text-[#1F1B18] text-xs sm:text-sm focus:outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/15 transition-all placeholder:text-[#A89E94]"
               />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#474039] mb-1.5">
-              Feeding Challenge <span className="text-[#9A9086] font-normal">(Optional)</span>
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#8A8077]">
-                <HelpCircle className="w-4 h-4" />
-              </div>
-              <select
-                name="feedingChallenge"
-                value={formData.feedingChallenge}
-                onChange={handleChange}
-                className="w-full pl-10 pr-4 py-3 rounded-2xl bg-[#FAF8F5] border border-[#E2D9CE] text-[#24211D] text-sm focus:outline-none focus:ring-2 focus:ring-[#2D6A4F] focus:bg-white transition-all"
-              >
-                <option value="">Select a challenge...</option>
-                {FEEDING_CHALLENGES.map((ch) => (
-                  <option key={ch} value={ch}>
-                    {ch}
-                  </option>
-                ))}
-              </select>
             </div>
           </div>
         </div>
 
-        {/* Mandatory Consent Checkbox */}
-        <div className="pt-2">
-          <label className="flex items-start gap-3 cursor-pointer group">
+        {/* ROW 4: Feeding Challenge (Optional) */}
+        <div>
+          <label className="block text-[11px] font-bold uppercase tracking-wider text-[#3D352E] mb-1">
+            Feeding Challenge <span className="text-[#8C7E72] font-normal normal-case">(Optional)</span>
+          </label>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-[#8C7E72]">
+              <HelpCircle className="w-4 h-4" />
+            </div>
+            <select
+              name="feedingChallenge"
+              value={formData.feedingChallenge}
+              onChange={handleChange}
+              className="w-full h-11 pl-9 pr-8 rounded-xl bg-white border border-[#DCD3C7] text-[#1F1B18] text-xs sm:text-sm focus:outline-none focus:border-[#2D6A4F] focus:ring-2 focus:ring-[#2D6A4F]/15 transition-all cursor-pointer appearance-none"
+            >
+              <option value="">Select a feeding challenge (optional)...</option>
+              {FEEDING_CHALLENGES.map((ch) => (
+                <option key={ch} value={ch}>
+                  {ch}
+                </option>
+              ))}
+            </select>
+            <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none text-[#8C7E72]">
+              <ChevronDown className="w-3.5 h-3.5" />
+            </div>
+          </div>
+        </div>
+
+        {/* Consent Checkbox */}
+        <div className="pt-1">
+          <label className="flex items-start gap-2.5 cursor-pointer group">
             <input
               type="checkbox"
               name="consentGiven"
               required
               checked={formData.consentGiven}
               onChange={handleChange}
-              className="mt-1 w-4 h-4 rounded border-[#E2D9CE] text-[#2D6A4F] focus:ring-[#2D6A4F] cursor-pointer"
+              className="mt-0.5 w-4 h-4 rounded border-[#DCD3C7] text-[#2D6A4F] focus:ring-[#2D6A4F] cursor-pointer"
             />
-            <span className="text-xs text-[#5D554E] leading-relaxed group-hover:text-[#24211D]">
+            <span className="text-[11px] text-[#5D554E] leading-relaxed group-hover:text-[#1F1B18]">
               I agree to the{' '}
               <a href="/giveaway-rules" target="_blank" className="text-[#2D6A4F] font-bold underline hover:text-[#1B4332]">
-                Official Giveaway Rules
+                Giveaway Rules
               </a>{' '}
               and{' '}
               <a href="/privacy-policy" target="_blank" className="text-[#2D6A4F] font-bold underline hover:text-[#1B4332]">
                 Privacy Policy
               </a>
-              . I consent to BabyBites processing my information to assign my lucky number and send launch communications.
+              . I consent to BabyBites assigning my lucky number and sending launch communications.
             </span>
           </label>
         </div>
 
         {/* Submit Button */}
-        <div className="pt-2">
+        <div className="pt-1">
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-4 px-6 rounded-2xl bg-[#2D6A4F] hover:bg-[#245640] text-white font-bold text-base shadow-lg shadow-[#2D6A4F33] hover:shadow-xl transition-all transform hover:-translate-y-0.5 disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full h-12 rounded-xl bg-gradient-to-r from-[#2D6A4F] to-[#1E4D38] hover:from-[#245640] hover:to-[#173B2B] text-white font-bold text-sm tracking-wide shadow-md shadow-[#2D6A4F33] hover:shadow-lg transition-all transform hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
           >
             {isLoading ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin" />
-                <span>Generating Your Lucky Number...</span>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span>Assigning Your Lucky Number...</span>
               </>
             ) : (
               <>
-                <Heart className="w-5 h-5 fill-current text-[#FCD8C5]" />
+                <Heart className="w-4 h-4 fill-current text-[#FCD8C5]" />
                 <span>Enter Giveaway &amp; Get My Lucky Code</span>
               </>
             )}
           </button>
         </div>
 
-        {/* Trust Points */}
-        <div className="pt-2 flex flex-wrap items-center justify-center gap-3 text-[#7A7067] text-xs">
+        {/* Trust Badges */}
+        <div className="pt-1 flex flex-wrap items-center justify-center gap-2.5 text-[#8C7E72] text-[11px]">
+          <span className="flex items-center gap-1">
+            <CheckCircle2 className="w-3.5 h-3.5 text-[#2D6A4F]" />
+            Instant Lucky Code
+          </span>
+          <span>•</span>
           <span className="flex items-center gap-1">
             <CheckCircle2 className="w-3.5 h-3.5 text-[#2D6A4F]" />
             Zero Spam Guarantee
           </span>
-          <span>&bull;</span>
+          <span>•</span>
           <span className="flex items-center gap-1">
             <CheckCircle2 className="w-3.5 h-3.5 text-[#2D6A4F]" />
-            Instant Sequential Code
-          </span>
-          <span>&bull;</span>
-          <span className="flex items-center gap-1">
-            <CheckCircle2 className="w-3.5 h-3.5 text-[#2D6A4F]" />
-            No Purchase Necessary
+            VIP Verified Only
           </span>
         </div>
       </form>
