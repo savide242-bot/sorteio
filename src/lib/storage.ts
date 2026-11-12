@@ -564,48 +564,48 @@ Encerramento: 20 de Novembro de 2026 | Anúncio dos Vencedores: 21 de Novembro d
       <!-- Lucky Number Ticket Box -->
       <div style="background: linear-gradient(135deg, #F2F8F5 0%, #FFFDF9 100%); border: 2.5px dashed #2D6A4F; border-radius: 16px; padding: 26px 20px; text-align: center; margin: 0 0 24px 0;">
         <p style="margin: 0 0 6px 0; font-size: 12px; text-transform: uppercase; font-weight: bold; color: #1B4332; letter-spacing: 1.5px; font-family: sans-serif;">
-          ✨ Seu Número Oficial da Sorte ✨
+          ✨ Your Official Lucky Number ✨
         </p>
         <div style="font-size: 44px; font-weight: 800; font-family: monospace; color: #2D6A4F; letter-spacing: 3px; margin: 6px 0;">
           [${participant.lucky_number}]
         </div>
         <p style="margin: 8px 0 0 0; font-size: 13px; color: #5C524C;">
-          Guarde este código com carinho. Ele será usado no nosso sorteio auditado e transparente no Random.org!
+          Keep this lucky number safe. It will be used in our verified, transparent external draw on Random.org!
         </p>
       </div>
 
-      <!-- Mandatory VIP Group Warning -->
+      <!-- Mandatory VIP Group Warning in English -->
       <div style="background-color: #FFF6F0; border: 2px solid #FBD3C1; border-radius: 14px; padding: 18px 20px; margin-bottom: 24px;">
         <div style="font-size: 13px; font-weight: bold; color: #B23B1B; text-transform: uppercase; letter-spacing: 1px; font-family: sans-serif; margin-bottom: 6px;">
-          ⚠️ Aviso Importante — Verificação do Grupo VIP
+          ⚠️ Mandatory Notice — VIP Group Verification
         </div>
         <p style="font-size: 14px; color: #8C2C13; line-height: 1.6; margin: 0;">
-          Registramos o seu número de WhatsApp: <strong>${participant.phone || 'Não informado'}</strong>.<br/>
-          A nossa equipe vai verificar cada número para saber se você está no <strong>Grupo VIP Oficial</strong>. Todas as mães que não estiverem no grupo serão desqualificadas do sorteio.
+          We recorded your WhatsApp / phone number: <strong>${participant.phone || 'Not specified'}</strong>.<br/>
+          Our team will verify each number against our official <strong>VIP Mom Community</strong>. All participants who are not active in the VIP group will be automatically disqualified from the giveaway.
         </p>
       </div>
 
       <!-- Timeline Schedule -->
       <div style="background-color: #FAF8F5; border: 1px solid #EAE0D4; border-radius: 14px; padding: 20px; margin-bottom: 24px;">
         <h3 style="font-size: 16px; color: #1F1B1A; margin: 0 0 12px 0; font-family: 'Times New Roman', serif; font-weight: bold;">
-          Datas Oficiais da Campanha:
+          Official Campaign Schedule:
         </h3>
         <ul style="font-size: 14px; color: #5C524C; line-height: 1.9; margin: 0; padding-left: 20px;">
-          <li><strong>20 de Novembro de 2026:</strong> Encerramento das inscrições e início dos 7 dias de Acesso Gratuito VIP!</li>
-          <li><strong>21 de Novembro de 2026:</strong> Anúncio oficial das 12 Mães Vencedoras do sorteio.</li>
+          <li><strong>November 20, 2026:</strong> Registration closes at 11:59 PM EST &amp; 7-day complimentary VIP access begins!</li>
+          <li><strong>November 21, 2026:</strong> Official announcement of the 12 lucky winners!</li>
         </ul>
       </div>
 
       <!-- Details Summary -->
       <table style="width: 100%; font-size: 13px; color: #5C524C; border-collapse: collapse; margin-bottom: 20px;">
-        <tr><td style="padding: 4px 0; width: 140px;"><strong>Nome:</strong></td><td style="color: #1F1B1A; font-weight: bold;">${participant.full_name}</td></tr>
+        <tr><td style="padding: 4px 0; width: 140px;"><strong>Name:</strong></td><td style="color: #1F1B1A; font-weight: bold;">${participant.full_name}</td></tr>
         <tr><td style="padding: 4px 0;"><strong>WhatsApp:</strong></td><td style="color: #1F1B1A; font-weight: bold; font-family: monospace;">${participant.phone || '—'}</td></tr>
         <tr><td style="padding: 4px 0;"><strong>Email:</strong></td><td style="color: #1F1B1A;">${participant.email}</td></tr>
-        <tr><td style="padding: 4px 0;"><strong>Fase do Bebé:</strong></td><td style="color: #1F1B1A;">${participant.baby_age}</td></tr>
+        <tr><td style="padding: 4px 0;"><strong>Baby's Age:</strong></td><td style="color: #1F1B1A;">${participant.baby_age}</td></tr>
       </table>
 
       <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #EDE4DA; font-size: 13px; color: #8A8077; text-align: center;">
-        Boa sorte, mamãe! 💗 &bull; Equipe BabyBites
+        Good luck, mama! 💗 &bull; BabyBites Team
       </div>
     </div>
   </body>

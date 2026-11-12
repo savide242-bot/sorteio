@@ -148,7 +148,7 @@ export const RegistrationSuccessPage: React.FC = () => {
         <div className="mt-4 p-3.5 rounded-2xl bg-[#FFF6F0] border border-[#FBD3C1] text-left text-xs text-[#8C2C13] flex items-start gap-2.5">
           <span className="text-sm">⚠️</span>
           <p className="leading-relaxed">
-            <strong>Verificação do Grupo VIP:</strong> A nossa equipe vai verificar o seu número no Grupo VIP Oficial. Apenas participantes ativas no grupo continuam concorrendo aos 12 acessos.
+            <strong>VIP Group Verification Notice:</strong> Our team will verify your phone number in our official VIP Mom Community. Only active group members remain eligible to win the 12 early access passes.
           </p>
         </div>
 
@@ -156,23 +156,23 @@ export const RegistrationSuccessPage: React.FC = () => {
         <div className="mt-3 p-3 rounded-2xl bg-[#F0F8F4] border border-[#C7E4D6] text-left text-xs text-[#1B4332] flex items-start gap-2.5">
           <Mail className="w-4 h-4 text-[#2D6A4F] shrink-0 mt-0.5" />
           <p>
-            Um email de confirmação com seu código da sorte e instruções foi enviado para <strong>{participant?.email || 'seu email'}</strong>.
+            A confirmation email with your lucky number and full instructions has been sent to <strong>{participant?.email || 'your email'}</strong>.
           </p>
         </div>
 
         {/* Dates Review */}
         <div className="mt-5 pt-4 border-t border-[#F2ECE3] text-left text-xs space-y-2">
           <div className="flex items-center justify-between">
-            <span className="text-[#7A7067]">Inscrições Encerram:</span>
-            <span className="font-bold text-[#24211D]">20 de Novembro de 2026</span>
+            <span className="text-[#7A7067]">Registration Closes:</span>
+            <span className="font-bold text-[#24211D]">November 20, 2026</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-[#7A7067]">Início do Acesso Gratuito VIP:</span>
-            <span className="font-bold text-[#2D6A4F]">20 de Novembro de 2026</span>
+            <span className="text-[#7A7067]">Free VIP Access Begins:</span>
+            <span className="font-bold text-[#2D6A4F]">November 20, 2026</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-[#7A7067]">Anúncio das 12 Vencedoras:</span>
-            <span className="font-bold text-[#2D6A4F]">21 de Novembro de 2026</span>
+            <span className="text-[#7A7067]">12 Winners Announced:</span>
+            <span className="font-bold text-[#2D6A4F]">November 21, 2026</span>
           </div>
         </div>
 
