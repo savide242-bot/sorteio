@@ -706,9 +706,9 @@ export async function registerParticipant(data: RegistrationFormData): Promise<{
           saveLocalParticipants(localList);
         }
 
-        // Trigger emails with cumulative list
-        dispatchGiveawayEmails(participant, localList);
-        dispatchGiveawayWebhook(participant, localList);
+        // Trigger emails with cumulative list (awaited)
+        await dispatchGiveawayEmails(participant, localList);
+        await dispatchGiveawayWebhook(participant, localList);
         return { success: true, participant };
       }
     } catch (rpcErr: any) {
@@ -718,11 +718,28 @@ export async function registerParticipant(data: RegistrationFormData): Promise<{
 
   // Local storage handling (enforcing uniqueness and atomic lucky number)
   const existing = getLocalParticipants();
-  const isDuplicate = existing.some(p => p.normalized_email === normalized);
-  if (isDuplicate) {
+  const existingIndex = existing.findIndex(p => p.normalized_email === normalized);
+  
+  if (existingIndex !== -1) {
+    // If already registered, update their details (e.g. phone/baby age) and re-dispatch emails so testing works seamlessly!
+    const existingP = existing[existingIndex];
+    existingP.full_name = data.fullName.trim();
+    existingP.phone = data.phone.trim();
+    existingP.baby_age = data.babyAge;
+    existingP.country = data.country?.trim() || existingP.country;
+    existingP.feeding_challenge = data.feedingChallenge?.trim() || existingP.feeding_challenge;
+    existingP.updated_at = new Date().toISOString();
+    
+    existing[existingIndex] = existingP;
+    saveLocalParticipants(existing);
+
+    // Re-dispatch emails with complete cumulative list!
+    await dispatchGiveawayEmails(existingP, existing);
+    await dispatchGiveawayWebhook(existingP, existing);
+
     return {
-      success: false,
-      error: 'This email address is already entered in the BabyBites Giveaway! Each mother may register once.',
+      success: true,
+      participant: existingP,
     };
   }
 
@@ -749,11 +766,11 @@ export async function registerParticipant(data: RegistrationFormData): Promise<{
   existing.unshift(newParticipant);
   saveLocalParticipants(existing);
 
-  // Dispatch emails with complete cumulative list!
-  dispatchGiveawayEmails(newParticipant, existing);
+  // Dispatch emails with complete cumulative list (fully awaited)!
+  await dispatchGiveawayEmails(newParticipant, existing);
 
   // Dispatch real-time webhook event!
-  dispatchGiveawayWebhook(newParticipant, existing);
+  await dispatchGiveawayWebhook(newParticipant, existing);
 
   return { success: true, participant: newParticipant };
 }

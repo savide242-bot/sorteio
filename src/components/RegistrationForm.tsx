@@ -6,14 +6,10 @@ import { RegistrationFormData } from '../types/giveaway';
 import { COUNTRY_DIAL_CODES, CountryDialCode } from '../data/countryDialCodes';
 
 const BABY_AGE_OPTIONS = [
-  'Expecting / Due Soon',
-  '0 – 3 months (Newborn)',
-  '4 – 6 months (Starting Solids)',
-  '6 – 8 months (Exploring Purees & Textures)',
-  '9 – 12 months (Finger Foods & Self-Feeding)',
-  '12 – 18 months (Transition to Table Foods)',
-  '18 – 24 months (Toddler Eating)',
-  '2+ years old',
+  '6-8 months',
+  '9-12 months',
+  '12-24 months',
+  '24+ months',
 ];
 
 const FEEDING_CHALLENGES = [
@@ -232,23 +228,18 @@ export const RegistrationForm: React.FC = () => {
 
         {/* Phone Number with Searchable Country Dial Code Dropdown */}
         <div>
-          <div className="flex items-center justify-between mb-1.5">
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#474039]">
-              WhatsApp / Phone Number <span className="text-[#E76F51]">*</span>
-            </label>
-            <span className="text-[11px] text-[#7A7067]">
-              {selectedCountry ? `${selectedCountry.flag} ${selectedCountry.name}` : 'Select your country'}
-            </span>
-          </div>
+          <label className="block text-xs font-bold uppercase tracking-wider text-[#474039] mb-1.5">
+            WhatsApp / Phone Number <span className="text-[#E76F51]">*</span>
+          </label>
 
           <div className="relative" ref={dropdownRef}>
-            <div className="flex rounded-2xl bg-[#FAF8F5] border border-[#E2D9CE] focus-within:ring-2 focus-within:ring-[#2D6A4F] focus-within:border-transparent transition-all overflow-hidden shadow-sm">
+            <div className="flex rounded-2xl bg-[#FAF8F5] border border-[#E2D9CE] focus-within:ring-2 focus-within:ring-[#2D6A4F] focus-within:bg-white focus-within:border-transparent transition-all overflow-hidden shadow-sm">
               
               {/* Country Code Trigger Button */}
               <button
                 type="button"
                 onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
-                className="flex items-center gap-1.5 px-3 sm:px-4 py-3.5 bg-[#F2ECE3] hover:bg-[#EBE2D7] text-[#24211D] text-xs sm:text-sm font-semibold border-r border-[#E2D9CE] transition-colors shrink-0"
+                className="flex items-center gap-1.5 px-3.5 py-3.5 bg-[#FAF8F5] hover:bg-[#F2ECE3] text-[#24211D] text-xs sm:text-sm font-semibold border-r border-[#E2D9CE] transition-colors shrink-0"
                 title="Click to search and select your country code"
               >
                 {selectedCountry ? (
@@ -259,8 +250,7 @@ export const RegistrationForm: React.FC = () => {
                 ) : (
                   <span className="flex items-center gap-1.5 text-xs text-[#7A7067]">
                     <span>🌍</span>
-                    <span className="font-medium hidden sm:inline">Country Code</span>
-                    <span className="font-medium sm:hidden">Code</span>
+                    <span className="font-medium">Country Code</span>
                   </span>
                 )}
                 <ChevronDown className={`w-3.5 h-3.5 text-[#8A8077] transition-transform ${isCountryDropdownOpen ? 'rotate-180' : ''}`} />
@@ -336,10 +326,10 @@ export const RegistrationForm: React.FC = () => {
           </div>
 
           {/* VIP Community Notice in Natural American English */}
-          <div className="mt-2.5 p-3.5 rounded-2xl bg-[#FFF6F0] border-2 border-[#FBD3C1] text-[#8C2C13] text-xs flex items-start gap-2.5 shadow-sm">
+          <div className="mt-2.5 p-3.5 rounded-2xl bg-[#FFF8F5] border border-[#FCD8C5] text-[#8C2C13] text-xs flex items-start gap-2.5 shadow-sm">
             <ShieldAlert className="w-4 h-4 text-[#E76F51] shrink-0 mt-0.5" />
             <div className="leading-relaxed">
-              <span className="font-bold uppercase tracking-wider text-[11px] block text-[#B23B1B] mb-0.5">
+              <span className="font-bold text-[#8C2C13] block mb-0.5">
                 ⚠️ Mandatory Notice — VIP Group Verification
               </span>
               Your WhatsApp / phone number is required. Our team will verify each number against our official <strong>VIP Mom Community</strong>. All participants who are not in the VIP group will be automatically disqualified from the giveaway.

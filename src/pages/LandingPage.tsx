@@ -55,12 +55,12 @@ export const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-maternal-mesh text-[#2C2422] overflow-x-hidden selection:bg-[#E8F5E9] selection:text-[#1B4332]">
       {/* Top Warm Announcement Bar */}
-      <div className="bg-[#1B4332] text-white py-2.5 px-4 text-center text-xs sm:text-sm font-medium tracking-wide shadow-sm">
-        <span className="inline-flex items-center gap-1.5 font-bold text-[#A7E9AF]">
+      <div className="bg-[#18392B] text-white py-2 px-4 text-center text-xs sm:text-sm font-medium tracking-wide border-b border-[#23533E]/40">
+        <span className="inline-flex items-center gap-1.5 font-bold text-[#F4A261]">
           <Sparkles className="w-3.5 h-3.5" />
-          BabyBites VIP Early Access:
+          VIP Early Access:
         </span>{' '}
-        Registration closes on <span className="underline font-bold text-white">November 20, 2026</span> &bull; Winners Announced on <span className="underline font-bold text-white">November 21, 2026</span>
+        Registration closes <span className="underline font-bold text-white">November 20</span> &bull; 12 Winners Announced <span className="underline font-bold text-white">November 21, 2026</span>
       </div>
 
       {/* Hero Section */}

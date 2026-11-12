@@ -29,21 +29,21 @@ export const Navbar: React.FC = () => {
             />
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-2xl sm:text-3xl font-bold font-serif tracking-tight text-[#1F1B1A]">
+                <span className="text-xl sm:text-2xl font-bold font-serif tracking-tight text-[#1F1B1A]">
                   Baby<span className="text-[#2D6A4F]">Bites</span>
                 </span>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#E8F5E9] text-[#1B4332] border border-[#C7E4D6]">
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-[#E8F5E9] text-[#1B4332] border border-[#C7E4D6]">
                   GIVEAWAY
                 </span>
               </div>
-              <p className="text-[11px] text-[#756A63] -mt-0.5 font-sans font-medium">
+              <p className="hidden sm:block text-[11px] text-[#756A63] -mt-0.5 font-sans font-medium">
                 Nourished with Love &bull; 300+ Pediatrician Recipes
               </p>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-8 text-sm font-semibold text-[#5D554E]">
+          <nav className="hidden lg:flex items-center gap-7 text-sm font-semibold text-[#5D554E]">
             {navLinks.map((link) => (
               <a
                 key={link.label}
@@ -55,8 +55,8 @@ export const Navbar: React.FC = () => {
             ))}
           </nav>
 
-          {/* Right Action Button */}
-          <div className="hidden sm:flex items-center gap-3">
+          {/* Desktop Single Action Button */}
+          <div className="hidden lg:flex items-center gap-3">
             <a
               href="/early-access#register-section"
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider bg-[#2D6A4F] hover:bg-[#245640] text-white shadow-md shadow-[#2D6A4F22] hover:shadow-lg transition-all"
@@ -66,21 +66,22 @@ export const Navbar: React.FC = () => {
             </a>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Single Action & Menu (Clean, no duplicate buttons!) */}
           <div className="flex items-center gap-2 lg:hidden">
             <a
               href="/early-access#register-section"
-              className="px-3.5 py-1.5 rounded-full text-xs font-bold bg-[#2D6A4F] text-white shadow-sm"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-[#2D6A4F] text-white shadow-sm"
             >
-              Enter
+              <Heart className="w-3 h-3 fill-current text-[#FCD8C5]" />
+              <span>Enter</span>
             </a>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 rounded-xl text-[#5D554E] hover:bg-[#EFEAE2]"
-              aria-label="Toggle menu"
+              className="p-2 rounded-xl text-[#5D554E] hover:bg-[#EFEAE2] transition-colors"
+              aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
