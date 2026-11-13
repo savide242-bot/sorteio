@@ -458,11 +458,17 @@ Encerramento: 20 de Novembro de 2026 | Anúncio dos Vencedores: 21 de Novembro d
         body: JSON.stringify(payload),
       });
 
+      const proxyData = await proxyRes.json().catch(() => null);
+
       if (proxyRes.ok) {
-        return { ok: true, data: await proxyRes.json() };
+        return { ok: true, data: proxyData };
+      } else {
+        console.warn('[Proxy /api/send-email Response Error]:', proxyRes.status, proxyData);
+        // If proxy reported a known status, don't trigger direct CORS fetch
+        return { ok: false, error: proxyData?.message || proxyData?.error || `HTTP ${proxyRes.status}` };
       }
     } catch (proxyErr) {
-      console.warn('Proxy /api/send-email failed, attempting direct fetch:', proxyErr);
+      console.warn('Proxy /api/send-email failed to connect, attempting direct fetch fallback:', proxyErr);
     }
 
     // Direct fallback if proxy is unavailable

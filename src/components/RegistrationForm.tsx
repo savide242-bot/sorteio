@@ -126,6 +126,9 @@ export const RegistrationForm: React.FC = () => {
         return;
       }
 
+      // Instant scroll to top so the lucky code & details are immediately in view without scrolling
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+
       // Successful registration redirect
       navigate('/registration-success', {
         state: { participant: result.participant },

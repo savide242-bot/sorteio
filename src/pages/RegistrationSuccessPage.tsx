@@ -18,6 +18,8 @@ export const RegistrationSuccessPage: React.FC = () => {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
+    // Instantly scroll to the very top so the lucky code is directly in view
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     try {
       confetti({
         particleCount: 90,
